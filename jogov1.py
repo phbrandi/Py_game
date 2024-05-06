@@ -5,8 +5,8 @@ import pygame
 pygame.init()
 
 # ----- Gera tela principal
-window = pygame.display.set_mode((500, 400))
-pygame.display.set_caption('Flappy Bird')
+window = pygame.display.set_mode((600, 499))
+pygame.display.set_caption('Tiro')
 
 # ----- Inicia estruturas de dados
 game = True
@@ -20,7 +20,7 @@ while game:
             game = False
 
     # ----- Gera saídas
-    window.fill((255, 255, 255))  # Preenche com a cor branca
+    window.fill((000, 000, 000)) 
 
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
