@@ -1,8 +1,9 @@
 # ===== Inicialização =====
 # ----- Importa e inicia pacotes
 import pygame
-clock = pygame.time.Clock
-FPS = 60
+from time import sleep
+clock = pygame.time.Clock()
+FPS = 30
 
 pygame.init()
 
@@ -19,23 +20,64 @@ game = True
 image = pygame.image.load('assets/img/Background_1.jpg').convert()
 image = pygame.transform.scale(image, (WIDTH, HEIGHT))
 
-p1 = pygame.image.load('assets/img/player1.png').convert_alpha()
-p1 = pygame.transform.scale(p1, (50, 70))
+p1_img = pygame.image.load('assets/img/player1.png').convert_alpha()
+p1_img = pygame.transform.scale(p1_img, (50, 70))
 
-p2 = pygame.image.load('assets/img/player2.png').convert_alpha()
-p2 = pygame.transform.scale(p2, (50, 70))
+p2_img = pygame.image.load('assets/img/player2.png').convert_alpha()
+p2_img = pygame.transform.scale(p2_img, (50, 70))
 
+class player(pygame.sprite.Sprite):
+    def __init__(self, img):
+
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.centerx = 100
+        self.rect.bottom = 363
+        self.speedx = 0
+        self.speedy = 0
+
+    def update(self):
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
+
+        # Mantem dentro da tela
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
+
+p1 = player(p1_img)
+all_sprites = pygame.sprite.Group()
+all_sprites.add(p1)
 # ===== Loop principal =====
 while game:
+    clock.tick(FPS)
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências
         if event.type == pygame.QUIT:
             game = False
 
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                p1.speedx -= 8
+            if event.key == pygame.K_RIGHT:
+                p1.speedx += 8
+                
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT:
+                p1.speedx += 8
+            if event.key == pygame.K_RIGHT:
+                p1.speedx -= 8
+
+    all_sprites.update()
+
     window.blit(image, (0, 0))
-    window.blit(p1, (100, 295))
-    window.blit(p2, (650, 295))
+
+    all_sprites.draw(window)
+    #window.blit(p1_img, (100, 295))
 
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
