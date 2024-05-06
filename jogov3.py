@@ -12,7 +12,7 @@ WIDTH = 800
 HEIGHT = 500
 
 GRAVITY = 2
-JUMP_SIZE = 30
+JUMP_SIZE = 25
 GROUND = 363
 
 STILL = 0
@@ -48,14 +48,30 @@ class player(pygame.sprite.Sprite):
         self.speedy = 0
 
     def update(self):
-        self.rect.x += self.speedx
-        self.rect.y += self.speedy
 
+        self.rect.x += self.speedx
+        
         # Mantem dentro da tela
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
+
+        self.speedy += GRAVITY
+        if self.speedy > 0:
+            self.state = FALLING
+        self.rect.y += self.speedy
+
+        if self.rect.bottom > GROUND:
+            self.rect.bottom = GROUND
+            self.speedy = 0
+            self.state = STILL
+
+    def jump(self):
+        if self.state == STILL:
+            self.speedy -= JUMP_SIZE
+            self.state = JUMPING
+
 
 p1 = player(p1_img)
 all_sprites = pygame.sprite.Group()
@@ -74,6 +90,10 @@ while game:
                 p1.speedx -= 8
             if event.key == pygame.K_RIGHT:
                 p1.speedx += 8
+         
+            if event.key == pygame.K_UP:
+                p1.jump()
+
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
