@@ -10,6 +10,15 @@ pygame.init()
 # ----- Gera tela principal
 WIDTH = 800
 HEIGHT = 500
+
+GRAVITY = 2
+JUMP_SIZE = 30
+GROUND = 363
+
+STILL = 0
+JUMPING = 1
+FALLING = 2
+
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Hello World!')
 
@@ -34,7 +43,7 @@ class player(pygame.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect()
         self.rect.centerx = 100
-        self.rect.bottom = 363
+        self.rect.bottom = GROUND
         self.speedx = 0
         self.speedy = 0
 
@@ -65,7 +74,7 @@ while game:
                 p1.speedx -= 8
             if event.key == pygame.K_RIGHT:
                 p1.speedx += 8
-                
+
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 p1.speedx += 8
