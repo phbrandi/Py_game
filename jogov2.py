@@ -16,6 +16,13 @@ game = True
 # ----- Inicia assets
 image = pygame.image.load('assets/img/Background_1.jpg').convert()
 image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+
+p1 = pygame.image.load('assets/img/player1.png').convert_alpha()
+p1 = pygame.transform.scale(p1, (50, 70))
+
+p2 = pygame.image.load('assets/img/player2.png').convert_alpha()
+p2 = pygame.transform.scale(p2, (50, 70))
+
 # ===== Loop principal =====
 while game:
     # ----- Trata eventos
@@ -25,6 +32,8 @@ while game:
             game = False
 
     window.blit(image, (0, 0))
+    window.blit(p1, (100, 295))
+    window.blit(p2, (650, 295))
 
 
 
