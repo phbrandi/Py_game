@@ -47,6 +47,14 @@ tiro_p1_img = pygame.transform.scale(tiro_p1_img, (40, 20))
 tiro_p2_img = pygame.image.load('assets/img/tiro2.png').convert_alpha()
 tiro_p2_img = pygame.transform.scale(tiro_p2_img, (40, 20))
 
+tiro_p1_e= pygame.image.load('assets/img/tiro1_esquerda.png').convert_alpha()
+tiro_p1_e = pygame.transform.scale(tiro_p1_e, (40, 20))
+
+tiro_p2_d= pygame.image.load('assets/img/tiro2_direita.png').convert_alpha()
+tiro_p2_d = pygame.transform.scale(tiro_p2_d, (40, 20))
+
+
+
 class player1(pygame.sprite.Sprite):
     def __init__(self, img):
 
@@ -131,9 +139,30 @@ class Bullet(pygame.sprite.Sprite):
 
         self.image = img
         self.rect = self.image.get_rect()
-        self.rect.centerx = player.rect.x + 73
-        self.rect.centery = player.rect.y + 43
-        self.speedx = 10  # Velocidade do tiro
+
+        if player == p1:
+            if player.image == p1_img:
+                self.rect.centerx = player.rect.x + 73
+                self.rect.centery = player.rect.y + 43
+                self.speedx = 10  # Velocidade do tiro
+                self.image = tiro_p1_img
+            if player.image == p1_e:
+                self.rect.centerx = player.rect.x - 20
+                self.rect.centery = player.rect.y + 43
+                self.speedx = -10  # Velocidade do tiro
+                self.image = tiro_p1_e
+
+        if player == p2:
+            if player.image == p2_img:
+                self.rect.centerx = player.rect.x -20
+                self.rect.centery = player.rect.y + 43
+                self.speedx = -10  # Velocidade do tiro
+                self.image = tiro_p2_img
+            if player.image == p2_d:
+                self.rect.centerx = player.rect.x + 73
+                self.rect.centery = player.rect.y + 43
+                self.speedx = 10  # Velocidade do tiro
+                self.image = tiro_p2_d
 
     def update(self):
         self.rect.x += self.speedx

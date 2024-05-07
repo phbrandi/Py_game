@@ -40,7 +40,7 @@ p1_e = pygame.transform.scale(p1_e, (50, 70))
 
 p2_d = pygame.image.load('assets/img/p2_direita.png').convert_alpha()
 p2_d = pygame.transform.scale(p2_d, (50, 70))
-BULLET_IMG = 'bullet_img'
+bullet_img = pygame.image.load('assets/img/tiro1.png').convert_alpha()
 
 class player1(pygame.sprite.Sprite):
     def __init__(self, img):
@@ -123,7 +123,7 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self, assets, bottom, centerx):
         # Construtor da classe mãe (Sprite).
         pygame.sprite.Sprite.__init__(self)
-        self.image = assets[BULLET_IMG]
+        self.image = bullet_img
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
 
@@ -171,7 +171,7 @@ while game:
                 p2.image = p2_d
             if event.key == pygame.K_UP:
                 p2.jump()
-
+            if event.key ==
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
