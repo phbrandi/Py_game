@@ -166,7 +166,7 @@ class Bullet(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.x += self.speedx
-        if self.rect.left > WIDTH or self.rect.right < 0:
+        if self.rect.x > WIDTH or self.rect.x < 0:
             self.kill() 
                 
 p1 = player1(p1_img)
