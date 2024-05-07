@@ -44,6 +44,9 @@ p2_d = pygame.transform.scale(p2_d, (50, 70))
 tiro_p1_img = pygame.image.load('assets/img/tiro1.png').convert_alpha()
 tiro_p1_img = pygame.transform.scale(tiro_p1_img, (40, 20))
 
+tiro_p2_img = pygame.image.load('assets/img/tiro2.png').convert_alpha()
+tiro_p2_img = pygame.transform.scale(tiro_p2_img, (40, 20))
+
 class player1(pygame.sprite.Sprite):
     def __init__(self, img):
 
@@ -122,14 +125,14 @@ class player2(pygame.sprite.Sprite):
 
 class Bullet(pygame.sprite.Sprite):
     # Construtor da classe.
-    def __init__(self, img):
+    def __init__(self, img, player):
 
         pygame.sprite.Sprite.__init__(self)
 
         self.image = img
         self.rect = self.image.get_rect()
-        self.rect.centerx = p1.rect.x + 73
-        self.rect.centery = p1.rect.y + 43
+        self.rect.centerx = player.rect.x + 73
+        self.rect.centery = player.rect.y + 43
         self.speedx = 10  # Velocidade do tiro
 
     def update(self):
@@ -161,8 +164,9 @@ while game:
             if event.key == pygame.K_w:
                 p1.jump()
             if event.key == pygame.K_r:
-                new_bullet = Bullet(tiro_p1_img)  # Cria um novo tiro
+                new_bullet = Bullet(tiro_p1_img, p1)  # Cria um novo tiro
                 all_sprites.add(new_bullet)
+
 
             if event.key == pygame.K_LEFT:
                 p2.speedx -= 8
@@ -172,6 +176,9 @@ while game:
                 p2.image = p2_d
             if event.key == pygame.K_UP:
                 p2.jump()
+            if event.key == pygame.K_SPACE:
+                new_bullet = Bullet(tiro_p2_img, p2)  # Cria um novo tiro
+                all_sprites.add(new_bullet)
 
 
         if event.type == pygame.KEYUP:

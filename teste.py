@@ -1,156 +1,233 @@
-# -*- coding: utf-8 -*-
-
-# Importando as bibliotecas necessárias.
+# ===== Inicialização =====
+# ----- Importa e inicia pacotes
 import pygame
-import random
-from os import path
+from time import sleep
+clock = pygame.time.Clock()
+FPS = 30
 
-# Estabelece a pasta que contem as figuras e sons.
-img_dir = path.join(path.dirname(__file__), 'img')
+pygame.init()
 
-# Dados gerais do jogo.
-TITULO = 'Exemplo de Pulo'
-WIDTH = 480 # Largura da tela
-HEIGHT = 600 # Altura da tela
-FPS = 60 # Frames por segundo
+# ----- Gera tela principal
+WIDTH = 800
+HEIGHT = 500
 
-# Define algumas variáveis com as cores básicas
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-YELLOW = (255, 255, 0)
-
-# Define a aceleração da gravidade
 GRAVITY = 2
-# Define a velocidade inicial no pulo
-JUMP_SIZE = 30
-# Define a altura do chão
-GROUND = HEIGHT * 5 // 6
+JUMP_SIZE = 25
+GROUND = 363
 
-# Define estados possíveis do jogador
 STILL = 0
 JUMPING = 1
 FALLING = 2
 
-# Classe Jogador que representa o herói
-class Player(pygame.sprite.Sprite):
+window = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption('TIROTEIO')
 
-    # Construtor da classe.
-    def __init__(self, player_img):
+# ----- Inicia estruturas de dados
+game = True
 
-        # Construtor da classe pai (Sprite).
+# ----- Inicia assets
+image = pygame.image.load('assets/img/Background_1.jpg').convert()
+image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+
+p1_img = pygame.image.load('assets/img/player1.png').convert_alpha()
+p1_img = pygame.transform.scale(p1_img, (50, 70))
+
+p2_img = pygame.image.load('assets/img/player2.png').convert_alpha()
+p2_img = pygame.transform.scale(p2_img, (50, 70))
+
+p1_e = pygame.image.load('assets/img/p1_esquerda.png').convert_alpha()
+p1_e = pygame.transform.scale(p1_e, (50, 70))
+
+p2_d = pygame.image.load('assets/img/p2_direita.png').convert_alpha()
+p2_d = pygame.transform.scale(p2_d, (50, 70))
+
+tiro1 = pygame.image.load('assets/img/tiro1.png').convert_alpha()
+tiro1 = pygame.transform.scale(tiro1, (50, 70))
+
+
+class player1(pygame.sprite.Sprite):
+    def __init__(self, img):
+
         pygame.sprite.Sprite.__init__(self)
 
-        # Define estado atual
-        # Usamos o estado para decidir se o jogador pode ou não pular
-        self.state = STILL
-
-        # Aumenta o tamanho da imagem para ficar mais fácil de ver
-        player_img = pygame.transform.scale(player_img, (100, 160))
-
-        # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
-        self.image = player_img
-        # Detalhes sobre o posicionamento.
+        self.image = img
+        self.orig_image = img
         self.rect = self.image.get_rect()
-
-        # Começa no topo da janela e cai até o chão
-        self.rect.centerx = WIDTH / 2
-        self.rect.top = 0
-
+        self.rect.centerx = 100
+        self.rect.bottom = GROUND
+        self.speedx = 0
         self.speedy = 0
 
-    # Metodo que atualiza a posição do personagem
     def update(self):
+
+        self.rect.x += self.speedx
+        
+        # Mantem dentro da tela
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
+
         self.speedy += GRAVITY
-        # Atualiza o estado para caindo
         if self.speedy > 0:
             self.state = FALLING
         self.rect.y += self.speedy
-        # Se bater no chão, para de cair
+
         if self.rect.bottom > GROUND:
-            # Reposiciona para a posição do chão
             self.rect.bottom = GROUND
-            # Para de cair
             self.speedy = 0
-            # Atualiza o estado para parado
             self.state = STILL
 
-    # Método que faz o personagem pular
     def jump(self):
-        # Só pode pular se ainda não estiver pulando ou caindo
+        if self.state == STILL:
+            self.speedy -= JUMP_SIZE
+            self.state = JUMPING
+
+   def shoot(self):
+        # Verifica se pode atirar
+        now = pygame.time.get_ticks()
+        # Verifica quantos ticks se passaram desde o último tiro.
+        elapsed_ticks = now - self.last_shot
+
+        # Se já pode atirar novamente...
+        if elapsed_ticks > self.shoot_ticks:
+            # Marca o tick da nova imagem.
+            self.last_shot = now
+            # A nova bala vai ser criada logo acima e no centro horizontal da nave
+            new_bullet = Bullet(self.assets, self.rect.top, self.rect.centerx)
+            self.groups['all_sprites'].add(new_bullet)
+            self.groups['all_bullets'].add(new_bullet)
+            self.assets[PEW_SOUND].play()
+
+class shoot1(pygame.sprite.Sprite):
+    def __init__(self, img):
+
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = img
+        self.orig_image = img
+        self.rect = self.image.get_rect()
+        self.rect.centerx = p1.rect.x
+        self.rect.bottom = p1.rect.y
+        self.speedx = 10
+        self.speedy = 0
+
+    def update(self):
+
+        self.rect.x += self.speedx
+        
+        # Mantem dentro da tela
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
+
+
+        if self.rect.bottom > GROUND:
+            self.rect.bottom = GROUND
+            self.speedy = 0
+            self.state = STILL
+        
+
+
+
+
+
+class player2(pygame.sprite.Sprite):
+    def __init__(self, img):
+
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.centerx = 700
+        self.rect.bottom = GROUND
+        self.speedx = 0
+        self.speedy = 0
+
+    def update(self):
+
+        self.rect.x += self.speedx
+        
+        # Mantem dentro da tela
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
+
+        self.speedy += GRAVITY
+        if self.speedy > 0:
+            self.state = FALLING
+        self.rect.y += self.speedy
+
+        if self.rect.bottom > GROUND:
+            self.rect.bottom = GROUND
+            self.speedy = 0
+            self.state = STILL
+
+    def jump(self):
         if self.state == STILL:
             self.speedy -= JUMP_SIZE
             self.state = JUMPING
 
 
-def game_screen(screen):
-    # Variável para o ajuste de velocidade
-    clock = pygame.time.Clock()
+p1 = player1(p1_img)
+p2 = player2(p2_img)
+all_sprites = pygame.sprite.Group()
+all_sprites.add(p1)
+all_sprites.add(p2)
+# ===== Loop principal =====
+while game:
+    clock.tick(FPS)
+    # ----- Trata eventos
+    for event in pygame.event.get():
+        # ----- Verifica consequências
+        if event.type == pygame.QUIT:
+            game = False
 
-    # Carrega imagem
-    player_img = pygame.image.load('assets/img/player1.png').convert_alpha()
-    # player_img = pygame.transform.scale(p1, (50, 70))
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                p1.speedx -= 8
+                p1.image = p1_e
+            if event.key == pygame.K_d:
+                p1.speedx += 8
+                p1.image = p1_img
+            if event.key == pygame.K_w:
+                p1.jump()
+            if event.key == pygame.K_SPACE:
+                p1.shoot()
+                
 
-    # Cria Sprite do jogador
-    player = Player(player_img)
-    # Cria um grupo de todos os sprites e adiciona o jogador.
-    all_sprites = pygame.sprite.Group()
-    all_sprites.add(player)
-
-    PLAYING = 0
-    DONE = 1
-
-    state = PLAYING
-    while state != DONE:
-
-        # Ajusta a velocidade do jogo.
-        clock.tick(FPS)
-
-        # Processa os eventos (mouse, teclado, botão, etc).
-        for event in pygame.event.get():
-
-            # Verifica se foi fechado.
-            if event.type == pygame.QUIT:
-                state = DONE
-
-            # Verifica se soltou alguma tecla.
-            if event.type == pygame.KEYDOWN:
-                # Dependendo da tecla, altera o estado do jogador.
-                if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
-                    player.jump()
-
-        # Depois de processar os eventos.
-        # Atualiza a acao de cada sprite. O grupo chama o método update() de cada Sprite dentre dele.
-        all_sprites.update()
-
-        # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)
-        all_sprites.draw(screen)
-
-        # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
+            if event.key == pygame.K_LEFT:
+                p2.speedx -= 8
+                p2.image = p2_img
+            if event.key == pygame.K_RIGHT:
+                p2.speedx += 8
+                p2.image = p2_d
+            if event.key == pygame.K_UP:
+                p2.jump()
 
 
-# Inicialização do Pygame.
-pygame.init()
-pygame.mixer.init()
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_a:
+                p1.speedx += 8
+            if event.key == pygame.K_d:
+                p1.speedx -= 8
 
-# Tamanho da tela.
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+            if event.key == pygame.K_LEFT:
+                p2.speedx += 8
+            if event.key == pygame.K_RIGHT:
+                p2.speedx -= 8
 
-# Nome do jogo
-pygame.display.set_caption(TITULO)
+    all_sprites.update()
 
-# Imprime instruções
-print('*' * len(TITULO))
-print(TITULO.upper())
-print('*' * len(TITULO))
-print('Utilize a tecla "ESPAÇO" ou seta para cima para pular.')
+    window.blit(image, (0, 0))
 
-# Comando para evitar travamentos.
-try:
-    game_screen(screen)
-finally:
-    pygame.quit()
+    all_sprites.draw(window)
+    #window.blit(p1_img, (100, 295))
+
+    # ----- Atualiza estado do jogo
+    pygame.display.update()  # Mostra o novo frame para o jogador
+
+# ===== Finalização =====
+pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
