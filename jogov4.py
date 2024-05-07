@@ -35,12 +35,20 @@ p1_img = pygame.transform.scale(p1_img, (50, 70))
 p2_img = pygame.image.load('assets/img/player2.png').convert_alpha()
 p2_img = pygame.transform.scale(p2_img, (50, 70))
 
+p1_e = pygame.image.load('assets/img/p1_esquerda.png').convert_alpha()
+p1_e = pygame.transform.scale(p1_e, (50, 70))
+
+p2_d = pygame.image.load('assets/img/p2_direita.png').convert_alpha()
+p2_d = pygame.transform.scale(p2_d, (50, 70))
+
+
 class player1(pygame.sprite.Sprite):
     def __init__(self, img):
 
         pygame.sprite.Sprite.__init__(self)
 
         self.image = img
+        self.orig_image = img
         self.rect = self.image.get_rect()
         self.rect.centerx = 100
         self.rect.bottom = GROUND
@@ -71,6 +79,7 @@ class player1(pygame.sprite.Sprite):
         if self.state == STILL:
             self.speedy -= JUMP_SIZE
             self.state = JUMPING
+
 
 class player2(pygame.sprite.Sprite):
     def __init__(self, img):
@@ -128,15 +137,19 @@ while game:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
                 p1.speedx -= 8
+                p1.image = p1_e
             if event.key == pygame.K_d:
                 p1.speedx += 8
+                p1.image = p1_img
             if event.key == pygame.K_w:
                 p1.jump()
 
             if event.key == pygame.K_LEFT:
                 p2.speedx -= 8
+                p2.image = p2_img
             if event.key == pygame.K_RIGHT:
                 p2.speedx += 8
+                p2.image = p2_d
             if event.key == pygame.K_UP:
                 p2.jump()
 
