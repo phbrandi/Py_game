@@ -80,7 +80,6 @@ class player1(pygame.sprite.Sprite):
             self.speedy -= JUMP_SIZE
             self.state = JUMPING
 
-
 class player2(pygame.sprite.Sprite):
     def __init__(self, img):
 
