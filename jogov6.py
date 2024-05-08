@@ -139,7 +139,7 @@ class Bullet(pygame.sprite.Sprite):
 
         self.image = img
         self.rect = self.image.get_rect()
-    
+
         if player == p1:
             if player.image == p1_img:
                 self.rect.centerx = player.rect.x + 73
@@ -209,6 +209,7 @@ while game:
                 new_bullet = Bullet(tiro_p2_img, p2)  # Cria um novo tiro
                 all_sprites.add(new_bullet)
 
+
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
                 p1.speedx += 8
@@ -219,7 +220,7 @@ while game:
                 p2.speedx += 8
             if event.key == pygame.K_RIGHT:
                 p2.speedx -= 8
-    
+
     all_sprites.update()
 
     window.blit(image, (0, 0))

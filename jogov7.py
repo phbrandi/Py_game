@@ -6,7 +6,6 @@ clock = pygame.time.Clock()
 FPS = 30
 
 pygame.init()
-
 # ----- Gera tela principal
 WIDTH = 800
 HEIGHT = 500
@@ -21,6 +20,7 @@ FALLING = 2
 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('TIROTEIO')
+fonte = pygame.font.Font(None, 36)
 
 # ----- Inicia estruturas de dados
 game = True
@@ -53,7 +53,8 @@ tiro_p1_e = pygame.transform.scale(tiro_p1_e, (40, 20))
 tiro_p2_d= pygame.image.load('assets/img/tiro2_direita.png').convert_alpha()
 tiro_p2_d = pygame.transform.scale(tiro_p2_d, (40, 20))
 
-
+winner1 = fonte.render(f'PLAVER 1 VENCEU!', True, (255, 255, 255))
+winner2 = fonte.render(f'PLAVER 2 VENCEU!', True, (255, 255, 255))
 
 class player1(pygame.sprite.Sprite):
     def __init__(self, img):
@@ -172,14 +173,13 @@ class Bullet(pygame.sprite.Sprite):
 p1 = player1(p1_img)
 p2 = player2(p2_img)
 all_sprites = pygame.sprite.Group()
-all_bullets1 = pygame.sprite.Group()
-all_players2 = pygame.sprite.Group()
-all_players1 = pygame.sprite.Group()
-all_players2.add(p2)
-all_players1.add(p1)
+all_bullets = pygame.sprite.Group()
 all_sprites.add(p1)
 all_sprites.add(p2)
 # ===== Loop principal =====
+vida1 = 200
+vida2 = 200
+gameOver = 0
 while game:
     clock.tick(FPS)
     # ----- Trata eventos
@@ -200,12 +200,8 @@ while game:
             if event.key == pygame.K_SPACE:
                 new_bullet = Bullet(tiro_p1_img, p1)  # Cria um novo tiro
                 all_sprites.add(new_bullet)
-                all_bullets1.add(new_bullet)
-                hits1 = pygame.sprite.groupcollide(all_players2, all_bullets1, True, True)
-                if len(hits1) > 0:
-                    game = False
+                all_bullets.add(new_bullet)
             
-
             if event.key == pygame.K_LEFT:
                 p2.speedx -= 8
                 p2.image = p2_img
@@ -217,10 +213,8 @@ while game:
             if event.key == pygame.K_p:
                 new_bullet = Bullet(tiro_p2_img, p2)  # Cria um novo tiro
                 all_sprites.add(new_bullet)
-                all_bullets1.add(new_bullet)
-                hits2 =pygame.sprite.groupcollide(all_players1,all_bullets1,True,True)
-                if len(hits2) > 0:
-                    game = False
+                all_bullets.add(new_bullet)
+
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
                 p1.speedx += 8
@@ -232,15 +226,29 @@ while game:
             if event.key == pygame.K_RIGHT:
                 p2.speedx -= 8
     
+    # Detecta colisões entre os tiros e os jogadores
+    hits1 = pygame.sprite.spritecollide(p2, all_bullets, True)
+    if hits1:
+        if vida2 != 0:
+            vida2 -= 5
+
+    hits2 = pygame.sprite.spritecollide(p1, all_bullets, True)
+    if hits2:
+        if vida1 != 0:
+            vida1 -= 5
+        print(f'vida do p1: {vida1}')
+
     all_sprites.update()
 
     window.blit(image, (0, 0))
 
     all_sprites.draw(window)
-    #window.blit(p1_img, (100, 295))
 
-    # ----- Atualiza estado do jogo
+
+    texto_vida1 = fonte.render(f'Player 1: {vida1}', True, (255, 255, 255))
+    texto_vida2 = fonte.render(f'Player 2: {vida2}', True, (255, 255, 255))
+
+    window.blit(texto_vida1, (10, 10))
+    window.blit(texto_vida2, (640, 10))
+    
     pygame.display.update()  # Mostra o novo frame para o jogador
-
-# ===== Finalização =====
-pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
