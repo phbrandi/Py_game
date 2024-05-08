@@ -172,6 +172,10 @@ class Bullet(pygame.sprite.Sprite):
 p1 = player1(p1_img)
 p2 = player2(p2_img)
 all_sprites = pygame.sprite.Group()
+all_bullets1 = pygame.sprite.Group()
+all_players = pygame.sprite.Group()
+all_players.add(p2)
+all_players.add(p1)
 all_sprites.add(p1)
 all_sprites.add(p2)
 # ===== Loop principal =====
@@ -194,7 +198,11 @@ while game:
                 p1.jump()
             if event.key == pygame.K_SPACE:
                 new_bullet = Bullet(tiro_p1_img, p1)  # Cria um novo tiro
+                all_bullets1.add(new_bullet)
                 all_sprites.add(new_bullet)
+                hits1 = pygame.sprite.groupcollide(all_players, all_bullets1, True, True)
+                if len(hits1) > 0:
+                    game = False
 
 
             if event.key == pygame.K_LEFT:
