@@ -56,6 +56,11 @@ tiro_p2_d = pygame.transform.scale(tiro_p2_d, (40, 20))
 winner1 = fonte.render(f'PLAVER 1 VENCEU!', True, (255, 255, 255))
 winner2 = fonte.render(f'PLAVER 2 VENCEU!', True, (255, 255, 255))
 
+largura_winner, altura_winner = winner1.get_size()
+
+x_winner = (WIDTH - largura_winner) // 2
+y_winner = (HEIGHT - altura_winner) // 2
+
 class player1(pygame.sprite.Sprite):
     def __init__(self, img):
 
@@ -179,7 +184,7 @@ all_sprites.add(p2)
 # ===== Loop principal =====
 vida1 = 200
 vida2 = 200
-gameOver = 0
+
 while game:
     clock.tick(FPS)
     # ----- Trata eventos
@@ -236,7 +241,6 @@ while game:
     if hits2:
         if vida1 != 0:
             vida1 -= 5
-        print(f'vida do p1: {vida1}')
 
     all_sprites.update()
 
@@ -244,11 +248,19 @@ while game:
 
     all_sprites.draw(window)
 
-
     texto_vida1 = fonte.render(f'Player 1: {vida1}', True, (255, 255, 255))
     texto_vida2 = fonte.render(f'Player 2: {vida2}', True, (255, 255, 255))
 
     window.blit(texto_vida1, (10, 10))
     window.blit(texto_vida2, (640, 10))
+
+    if vida1 == 0 or vida2 == 0:
+        image.fill((0, 0, 0))
+        all_sprites.empty()
+        window.blit(image, (0, 0))
+        if vida1 == 0:
+            window.blit(winner2, (x_winner, y_winner))
+        elif vida2 == 0:
+            window.blit(winner1, (x_winner, y_winner))
     
     pygame.display.update()  # Mostra o novo frame para o jogador
