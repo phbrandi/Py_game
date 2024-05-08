@@ -192,7 +192,7 @@ while game:
                 p1.image = p1_img
             if event.key == pygame.K_w:
                 p1.jump()
-            if event.key == pygame.K_r:
+            if event.key == pygame.K_SPACE:
                 new_bullet = Bullet(tiro_p1_img, p1)  # Cria um novo tiro
                 all_sprites.add(new_bullet)
 
@@ -205,7 +205,7 @@ while game:
                 p2.image = p2_d
             if event.key == pygame.K_UP:
                 p2.jump()
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_p:
                 new_bullet = Bullet(tiro_p2_img, p2)  # Cria um novo tiro
                 all_sprites.add(new_bullet)
 
