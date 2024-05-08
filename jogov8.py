@@ -24,11 +24,10 @@ fonte = pygame.font.Font(None, 36)
 
 # ----- Inicia estruturas de dados
 game = True
+game_start = False
 
-
-# ----- Inicia assets
-
-image = pygame.image.load('assets/img/Background_1.jpg').convert()
+# ----- Inicia assets 
+image = pygame.image.load('assets/img/Background_2.jpg').convert()
 image = pygame.transform.scale(image, (WIDTH, HEIGHT))
 
 p1_img = pygame.image.load('assets/img/player1.png').convert_alpha()
@@ -188,6 +187,7 @@ vida1 = 200
 vida2 = 200
 
 while game:
+    window.blit(image, (0, 0))
     clock.tick(FPS)
     # ----- Trata eventos
     for event in pygame.event.get():
@@ -196,6 +196,11 @@ while game:
             game = False
 
         if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                image = pygame.image.load('assets/img/Background_1.jpg').convert()
+                image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                window.blit(image, (0,0))
+                game_start = True
             if event.key == pygame.K_a:
                 p1.speedx -= 8
                 p1.image = p1_e
@@ -232,37 +237,38 @@ while game:
                 p2.speedx += 8
             if event.key == pygame.K_RIGHT:
                 p2.speedx -= 8
-    
-    # Detecta colisões entre os tiros e os jogadores
-    hits1 = pygame.sprite.spritecollide(p2, all_bullets, True)
-    if hits1:
-        if vida2 != 0:
-            vida2 -= 5
+    if game_start == True:
 
-    hits2 = pygame.sprite.spritecollide(p1, all_bullets, True)
-    if hits2:
-        if vida1 != 0:
-            vida1 -= 5
+        # Detecta colisões entre os tiros e os jogadores
+        hits1 = pygame.sprite.spritecollide(p2, all_bullets, True)
+        if hits1:
+            if vida2 != 0:
+                vida2 -= 5
 
-    all_sprites.update()
+        hits2 = pygame.sprite.spritecollide(p1, all_bullets, True)
+        if hits2:
+            if vida1 != 0:
+                vida1 -= 5
 
-    window.blit(image, (0, 0))
+        all_sprites.update()
 
-    all_sprites.draw(window)
-
-    texto_vida1 = fonte.render(f'Player 1: {vida1}', True, (255, 255, 255))
-    texto_vida2 = fonte.render(f'Player 2: {vida2}', True, (255, 255, 255))
-
-    window.blit(texto_vida1, (10, 10))
-    window.blit(texto_vida2, (640, 10))
-
-    if vida1 == 0 or vida2 == 0:
-        image.fill((0, 0, 0))
-        all_sprites.empty()
         window.blit(image, (0, 0))
-        if vida1 == 0:
-            window.blit(winner2, (x_winner, y_winner))
-        elif vida2 == 0:
-            window.blit(winner1, (x_winner, y_winner))
+
+        all_sprites.draw(window)
+
+        texto_vida1 = fonte.render(f'Player 1: {vida1}', True, (255, 255, 255))
+        texto_vida2 = fonte.render(f'Player 2: {vida2}', True, (255, 255, 255))
+
+        window.blit(texto_vida1, (10, 10))
+        window.blit(texto_vida2, (640, 10))
+
+        if vida1 == 0 or vida2 == 0:
+            image.fill((0, 0, 0))
+            all_sprites.empty()
+            window.blit(image, (0, 0))
+            if vida1 == 0:
+                window.blit(winner2, (x_winner, y_winner))
+            elif vida2 == 0:
+                window.blit(winner1, (x_winner, y_winner))
     
     pygame.display.update()  # Mostra o novo frame para o jogador
