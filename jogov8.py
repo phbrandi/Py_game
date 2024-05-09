@@ -31,16 +31,16 @@ image = pygame.image.load('assets/img/home.jpg')
 image = pygame.transform.scale(image, (WIDTH, HEIGHT))
 
 p1_img = pygame.image.load('assets/img/player1.png').convert_alpha()
-p1_img = pygame.transform.scale(p1_img, (50, 70))
+p1_img = pygame.transform.scale(p1_img, (60, 90))
 
 p2_img = pygame.image.load('assets/img/player2.png').convert_alpha()
-p2_img = pygame.transform.scale(p2_img, (50, 70))
+p2_img = pygame.transform.scale(p2_img, (60, 90))
 
 p1_e = pygame.image.load('assets/img/p1_esquerda.png').convert_alpha()
-p1_e = pygame.transform.scale(p1_e, (50, 70))
+p1_e = pygame.transform.scale(p1_e, (60, 90))
 
 p2_d = pygame.image.load('assets/img/p2_direita.png').convert_alpha()
-p2_d = pygame.transform.scale(p2_d, (50, 70))
+p2_d = pygame.transform.scale(p2_d, (60, 90))
 
 tiro_p1_img = pygame.image.load('assets/img/tiro1.png').convert_alpha()
 tiro_p1_img = pygame.transform.scale(tiro_p1_img, (40, 20))
@@ -149,25 +149,25 @@ class Bullet(pygame.sprite.Sprite):
     
         if player == p1:
             if player.image == p1_img:
-                self.rect.centerx = player.rect.x + 73
-                self.rect.centery = player.rect.y + 43
+                self.rect.centerx = player.rect.x + 80
+                self.rect.centery = player.rect.y + 55
                 self.speedx = 10  # Velocidade do tiro
                 self.image = tiro_p1_img
             if player.image == p1_e:
                 self.rect.centerx = player.rect.x - 20
-                self.rect.centery = player.rect.y + 43
+                self.rect.centery = player.rect.y + 55
                 self.speedx = -10  # Velocidade do tiro
                 self.image = tiro_p1_e
 
         if player == p2:
             if player.image == p2_img:
-                self.rect.centerx = player.rect.x -20
-                self.rect.centery = player.rect.y + 43
+                self.rect.centerx = player.rect.x - 20
+                self.rect.centery = player.rect.y + 55
                 self.speedx = -10  # Velocidade do tiro
                 self.image = tiro_p2_img
             if player.image == p2_d:
-                self.rect.centerx = player.rect.x + 73
-                self.rect.centery = player.rect.y + 43
+                self.rect.centerx = player.rect.x + 80
+                self.rect.centery = player.rect.y + 55
                 self.speedx = 10  # Velocidade do tiro
                 self.image = tiro_p2_d
 
