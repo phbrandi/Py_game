@@ -93,6 +93,7 @@ class player(pygame.sprite.Sprite):
             self.speedy -= JUMP_SIZE
             self.state = JUMPING
 
+
 class Bullet(pygame.sprite.Sprite):
     # Construtor da classe.
     def __init__(self, img, player):
@@ -134,6 +135,7 @@ class Bullet(pygame.sprite.Sprite):
 p1 = player(p1_img, 100)
 p2 = player(p2_img, 700)
 all_sprites = pygame.sprite.Group()
+all_bullets = pygame.sprite.Group()
 all_sprites.add(p1)
 all_sprites.add(p2)
 # ===== Loop principal =====
@@ -157,6 +159,7 @@ while game:
             if event.key == pygame.K_r:
                 new_bullet = Bullet(tiro_p1_img, p1)  # Cria um novo tiro
                 all_sprites.add(new_bullet)
+                all_bullets.add(new_bullet)
 
 
             if event.key == pygame.K_LEFT:
@@ -170,6 +173,7 @@ while game:
             if event.key == pygame.K_SPACE:
                 new_bullet = Bullet(tiro_p2_img, p2)  # Cria um novo tiro
                 all_sprites.add(new_bullet)
+                all_bullets.add(new_bullet)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
@@ -181,6 +185,13 @@ while game:
                 p2.speedx += 8
             if event.key == pygame.K_RIGHT:
                 p2.speedx -= 8
+
+        hits = pygame.sprite.spritecollide(p2, all_bullets, True)
+    if len(hits) > 0:
+
+        sleep(1) # Precisa esperar senão fecha
+
+        game = False
     
     all_sprites.update()
 
