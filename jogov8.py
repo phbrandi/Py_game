@@ -54,8 +54,8 @@ tiro_p1_e = pygame.transform.scale(tiro_p1_e, (40, 20))
 tiro_p2_d= pygame.image.load('assets/img/tiro2_direita.png').convert_alpha()
 tiro_p2_d = pygame.transform.scale(tiro_p2_d, (40, 20))
 
-winner1 = fonte.render(f'PLAVER 1 VENCEU!', True, (255, 255, 255))
-winner2 = fonte.render(f'PLAVER 2 VENCEU!', True, (255, 255, 255))
+winner1 = fonte.render(f'PLAYER 1 VENCEU!', True, (255, 255, 255))
+winner2 = fonte.render(f'PLAYER 2 VENCEU!', True, (255, 255, 255))
 
 largura_winner, altura_winner = winner1.get_size()
 
