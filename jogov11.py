@@ -30,7 +30,7 @@ wait = False
 
 
 # ----- Inicia assets 
-image = pygame.image.load('assets/img/home.jpg')
+image = pygame.image.load('assets/img/inicio.png')
 image = pygame.transform.scale(image, (WIDTH, HEIGHT))
 
 p1_img = pygame.image.load('assets/img/player1.png').convert_alpha()
@@ -57,13 +57,15 @@ tiro_p1_e = pygame.transform.scale(tiro_p1_e, (40, 20))
 tiro_p2_d= pygame.image.load('assets/img/tiro2_direita.png').convert_alpha()
 tiro_p2_d = pygame.transform.scale(tiro_p2_d, (40, 20))
 
-winner1 = fonte.render(f'PLAYER 1 VENCEU!', True, (255, 255, 255))
-winner2 = fonte.render(f'PLAYER 2 VENCEU!', True, (255, 255, 255))
+v1 = pygame.image.load('assets/img/vitoria1.png').convert_alpha()
+v1 = pygame.transform.scale(v1, (WIDTH, HEIGHT))
 
-largura_winner, altura_winner = winner1.get_size()
+v2 = pygame.image.load('assets/img/vitoria2.png').convert_alpha()
+v2 = pygame.transform.scale(v2, (WIDTH, HEIGHT))
 
-x_winner = (WIDTH - largura_winner) // 2
-y_winner = (HEIGHT - altura_winner) // 2
+inicio = pygame.image.load('assets/img/inicio.png').convert_alpha()
+inicio = pygame.transform.scale(inicio, (WIDTH, HEIGHT))
+
 
 class player1(pygame.sprite.Sprite):
     def __init__(self, img):
@@ -187,10 +189,9 @@ all_sprites.add(p1)
 all_sprites.add(p2)
 
 vida1 = 200
-vida2 = 200
+vida2 = 5
 
 last_shoot = 0
-
 
 # ===== Loop principal =====
 while game:
@@ -204,7 +205,7 @@ while game:
 
         if event.type == pygame.KEYDOWN:
             if game_start == False:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_RETURN:
                     image = pygame.image.load('assets/img/Escolha_mapas.png')
                     image = pygame.transform.scale(image, (WIDTH, HEIGHT))
                     window.blit(image, (0,0))
@@ -304,13 +305,30 @@ while game:
         window.blit(texto_vida1, (10, 10))
         window.blit(texto_vida2, (618, 10))
 
-        if vida1 == 0 or vida2 == 0:
-            image.fill((0, 0, 0))
+
+
+        if vida1 == 0:
             all_sprites.empty()
-            window.blit(image, (0, 0))
-            if vida1 == 0:
-                window.blit(winner2, (x_winner, y_winner))
-            elif vida2 == 0:
-                window.blit(winner1, (x_winner, y_winner))
-    
+            image = pygame.image.load('assets/img/vitoria2.png').convert_alpha()
+            image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+            if event.type == pygame.KEYDOWN:
+                if event.key != pygame.K_RETURN:
+                    game = False
+        elif vida2 == 0:
+            all_sprites.empty()
+            image = pygame.image.load('assets/img/vitoria1.png').convert_alpha()
+            image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+            if event.type == pygame.KEYDOWN:
+                if event.key != pygame.K_RETURN:
+                    game = False
+
     pygame.display.update()  # Mostra o novo frame para o jogador
+
+pygame.display.update()
+game = True
+pygame.display.update()  # Mostra o novo frame para o jogador
+
+
+
+            
+        
