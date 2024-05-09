@@ -26,6 +26,7 @@ fonte = pygame.font.Font(None, 40)
 game = True
 game_start = False
 
+
 # ----- Inicia assets 
 image = pygame.image.load('assets/img/home.jpg')
 image = pygame.transform.scale(image, (WIDTH, HEIGHT))
@@ -197,6 +198,11 @@ while game:
             game = False
 
         if event.type == pygame.KEYDOWN:
+            if game_start == False:
+                if event.key == pygame.K_SPACE:
+                    image = pygame.image.load('assets/img/Escolha_mapas.png')
+                    image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                    window.blit(image, (0,0))
             if game_start == False:
                 if event.key == pygame.K_1:
                     image = pygame.image.load('assets/img/Background_1.jpg').convert()
