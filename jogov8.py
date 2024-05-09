@@ -20,14 +20,14 @@ FALLING = 2
 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('TIROTEIO')
-fonte = pygame.font.Font(None, 36)
+fonte = pygame.font.Font(None, 40)
 
 # ----- Inicia estruturas de dados
 game = True
 game_start = False
 
 # ----- Inicia assets 
-image = pygame.image.load('assets/img/Background_2.jpg').convert()
+image = pygame.image.load('assets/img/home.jpg')
 image = pygame.transform.scale(image, (WIDTH, HEIGHT))
 
 p1_img = pygame.image.load('assets/img/player1.png').convert_alpha()
@@ -196,11 +196,31 @@ while game:
             game = False
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_1:
-                image = pygame.image.load('assets/img/Background_1.jpg').convert()
-                image = pygame.transform.scale(image, (WIDTH, HEIGHT))
-                window.blit(image, (0,0))
-                game_start = True
+            if game_start == False:
+                if event.key == pygame.K_1:
+                    image = pygame.image.load('assets/img/Background_1.jpg').convert()
+                    image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                    window.blit(image, (0,0))
+                    game_start = True
+                    GROUND = 440
+                if event.key == pygame.K_2:
+                    image = pygame.image.load('assets/img/Background_2.jpg').convert()
+                    image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                    window.blit(image, (0,0))
+                    game_start = True
+                    GROUND = 450
+                if event.key == pygame.K_3:
+                    image = pygame.image.load('assets/img/Background_3.jpg').convert()
+                    image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                    window.blit(image, (0,0))
+                    game_start = True
+                    GROUND = 460
+                if event.key == pygame.K_4:
+                    image = pygame.image.load('assets/img/Background_4.jpg').convert()
+                    image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                    window.blit(image, (0,0))
+                    game_start = True
+                    GROUND = 460
             if event.key == pygame.K_a:
                 p1.speedx -= 8
                 p1.image = p1_e
@@ -260,7 +280,7 @@ while game:
         texto_vida2 = fonte.render(f'Player 2: {vida2}', True, (255, 255, 255))
 
         window.blit(texto_vida1, (10, 10))
-        window.blit(texto_vida2, (640, 10))
+        window.blit(texto_vida2, (618, 10))
 
         if vida1 == 0 or vida2 == 0:
             image.fill((0, 0, 0))
