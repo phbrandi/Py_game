@@ -182,10 +182,11 @@ all_sprites = pygame.sprite.Group()
 all_bullets = pygame.sprite.Group()
 all_sprites.add(p1)
 all_sprites.add(p2)
-# ===== Loop principal =====
+
 vida1 = 200
 vida2 = 200
 
+# ===== Loop principal =====
 while game:
     window.blit(image, (0, 0))
     clock.tick(FPS)
@@ -221,31 +222,32 @@ while game:
                     window.blit(image, (0,0))
                     game_start = True
                     GROUND = 460
-            if event.key == pygame.K_a:
-                p1.speedx -= 8
-                p1.image = p1_e
-            if event.key == pygame.K_d:
-                p1.speedx += 8
-                p1.image = p1_img
-            if event.key == pygame.K_w:
-                p1.jump()
-            if event.key == pygame.K_SPACE:
-                new_bullet = Bullet(tiro_p1_img, p1)  # Cria um novo tiro
-                all_sprites.add(new_bullet)
-                all_bullets.add(new_bullet)
-            
-            if event.key == pygame.K_LEFT:
-                p2.speedx -= 8
-                p2.image = p2_img
-            if event.key == pygame.K_RIGHT:
-                p2.speedx += 8
-                p2.image = p2_d
-            if event.key == pygame.K_UP:
-                p2.jump()
-            if event.key == pygame.K_p:
-                new_bullet = Bullet(tiro_p2_img, p2)  # Cria um novo tiro
-                all_sprites.add(new_bullet)
-                all_bullets.add(new_bullet)
+            else:
+                if event.key == pygame.K_a:
+                    p1.speedx -= 8
+                    p1.image = p1_e
+                if event.key == pygame.K_d:
+                    p1.speedx += 8
+                    p1.image = p1_img
+                if event.key == pygame.K_w:
+                    p1.jump()
+                if event.key == pygame.K_SPACE:
+                    new_bullet = Bullet(tiro_p1_img, p1)  # Cria um novo tiro
+                    all_sprites.add(new_bullet)
+                    all_bullets.add(new_bullet)
+                
+                if event.key == pygame.K_LEFT:
+                    p2.speedx -= 8
+                    p2.image = p2_img
+                if event.key == pygame.K_RIGHT:
+                    p2.speedx += 8
+                    p2.image = p2_d
+                if event.key == pygame.K_UP:
+                    p2.jump()
+                if event.key == pygame.K_p:
+                    new_bullet = Bullet(tiro_p2_img, p2)  # Cria um novo tiro
+                    all_sprites.add(new_bullet)
+                    all_bullets.add(new_bullet)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
