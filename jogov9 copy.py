@@ -7,6 +7,8 @@ clock = pygame.time.Clock()
 FPS = 30
 
 pygame.init()
+pygame.mixer.init()
+hit_sound = pygame.mixer.Sound('assets/som/hit_sound.mp3')
 # ----- Gera tela principal
 WIDTH = 800
 HEIGHT = 500
@@ -281,11 +283,13 @@ while game:
         # Detecta colisões entre os tiros e os jogadores
         hits1 = pygame.sprite.spritecollide(p2, all_bullets, True)
         if hits1:
+            hit_sound.play()
             if vida2 != 0:
                 vida2 -= 5
 
         hits2 = pygame.sprite.spritecollide(p1, all_bullets, True)
         if hits2:
+            hit_sound.play()
             if vida1 != 0:
                 vida1 -= 5
 
