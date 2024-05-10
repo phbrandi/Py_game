@@ -30,8 +30,6 @@ wait = False
 
 
 # ----- Inicia assets 
-image = pygame.image.load('assets/img/inicio.png')
-image = pygame.transform.scale(image, (WIDTH, HEIGHT))
 
 p1_img = pygame.image.load('assets/img/player1.png').convert_alpha()
 p1_img = pygame.transform.scale(p1_img, (60, 90))
@@ -57,15 +55,8 @@ tiro_p1_e = pygame.transform.scale(tiro_p1_e, (40, 20))
 tiro_p2_d= pygame.image.load('assets/img/tiro2_direita.png').convert_alpha()
 tiro_p2_d = pygame.transform.scale(tiro_p2_d, (40, 20))
 
-v1 = pygame.image.load('assets/img/vitoria1.png').convert_alpha()
-v1 = pygame.transform.scale(v1, (WIDTH, HEIGHT))
-
-v2 = pygame.image.load('assets/img/vitoria2.png').convert_alpha()
-v2 = pygame.transform.scale(v2, (WIDTH, HEIGHT))
-
-inicio = pygame.image.load('assets/img/inicio.png').convert_alpha()
-inicio = pygame.transform.scale(inicio, (WIDTH, HEIGHT))
-
+image = pygame.image.load('assets/img/inicio.png').convert_alpha()
+image = pygame.transform.scale(image, (WIDTH, HEIGHT))
 
 class player1(pygame.sprite.Sprite):
     def __init__(self, img):
@@ -189,9 +180,10 @@ all_sprites.add(p1)
 all_sprites.add(p2)
 
 vida1 = 200
-vida2 = 5
+vida2 = 200
 
 last_shoot = 0
+
 
 # ===== Loop principal =====
 while game:
@@ -299,8 +291,8 @@ while game:
 
         all_sprites.draw(window)
 
-        texto_vida1 = fonte.render(f'Player 1: {vida1}', True, (255, 255, 255))
-        texto_vida2 = fonte.render(f'Player 2: {vida2}', True, (255, 255, 255))
+        texto_vida1 = fonte.render(f'Player 1: {vida1}', True, (255, 255, 255), (0, 0, 0))
+        texto_vida2 = fonte.render(f'Player 2: {vida2}', True, (255, 255, 255), (0, 0, 0))
 
         window.blit(texto_vida1, (10, 10))
         window.blit(texto_vida2, (618, 10))
@@ -315,11 +307,5 @@ while game:
             image = pygame.image.load('assets/img/vitoria1.png').convert_alpha()
             image = pygame.transform.scale(image, (WIDTH, HEIGHT))
 
-        pygame.display.update()  # Mostra o novo frame para o jogador
-
-
-
-
-
-            
-        
+    
+    pygame.display.update()  # Mostra o novo frame para o jogador
