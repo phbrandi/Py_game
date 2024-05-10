@@ -143,7 +143,7 @@ all_sprites.add(p1)
 all_sprites.add(p2)
 
 vida1 = 200
-vida2 = 10
+vida2 = 200
 
 last_shoot = 0
 
@@ -283,7 +283,7 @@ while game != 'encerrar':
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     vida1 = 200
-                    vida2 = 10
+                    vida2 = 200
                     image = pygame.image.load('assets/img/inicio.png').convert_alpha()
                     image = pygame.transform.scale(image, (WIDTH, HEIGHT))
                     game_start = False
