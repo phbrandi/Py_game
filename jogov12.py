@@ -7,6 +7,7 @@ clock = pygame.time.Clock()
 FPS = 30
 
 pygame.init()
+pygame.mixer.init()
 # ----- Gera tela principal
 WIDTH = 800
 HEIGHT = 500
@@ -57,6 +58,9 @@ tiro_p2_d = pygame.transform.scale(tiro_p2_d, (40, 20))
 
 image = pygame.image.load('assets/img/inicio.png').convert_alpha()
 image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+
+pygame.mixer.music.load('assets/som/Wave Saver - 8-bit Sheriff (Royalty Free Music).mp3')
+pygame.mixer.music.set_volume(0.4)
 
 class player(pygame.sprite.Sprite):
     def __init__(self, img, pos):
@@ -146,9 +150,9 @@ vida1 = 200
 vida2 = 200
 
 last_shoot = 0
-
-while game != 'encerrar':
 # ===== Loop principal =====
+pygame.mixer.music.play(loops=-1)
+while game != 'encerrar':
     if game:
         window.blit(image, (0, 0))
         clock.tick(FPS)
