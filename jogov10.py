@@ -172,13 +172,6 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.x > WIDTH or self.rect.x < 0:
             self.kill() 
                 
-p1 = player1(p1_img)
-p2 = player2(p2_img)
-all_sprites = pygame.sprite.Group()
-all_bullets = pygame.sprite.Group()
-all_sprites.add(p1)
-all_sprites.add(p2)
-
 vida1 = 200
 vida2 = 200
 
@@ -194,6 +187,12 @@ STATE_GAME_OVER = 3
 # Estado inicial
 game_state = STATE_HOME
 
+p1 = player1(p1_img)
+p2 = player2(p2_img)
+all_sprites = pygame.sprite.Group()
+all_bullets = pygame.sprite.Group()
+all_sprites.add(p1)
+all_sprites.add(p2)
 # Loop principal
 while game:
     window.blit(image, (0, 0))
@@ -239,22 +238,23 @@ while game:
                     GROUND = 460
 
             elif game_state == STATE_COMBAT:
-                if event.key == pygame.K_a:
-                    p1.speedx -= 8
-                    p1.image = p1_e
-                if event.key == pygame.K_d:
-                    p1.speedx += 8
-                    p1.image = p1_img
-                if event.key == pygame.K_w:
-                    p1.jump()
-                if event.key == pygame.K_SPACE:
-                    current_time = time.time()
-                    if current_time - last_shoot > 0.2:
-                        new_bullet = Bullet(tiro_p1_img, p1)  # Cria um novo tiro
-                        all_sprites.add(new_bullet)
-                        all_bullets.add(new_bullet)
-                        last_shoot = current_time
-                        
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_a:
+                        p1.speedx -= 8
+                        p1.image = p1_e
+                    if event.key == pygame.K_d:
+                        p1.speedx += 8
+                        p1.image = p1_img
+                    if event.key == pygame.K_w:
+                        p1.jump()
+                    if event.key == pygame.K_SPACE:
+                        current_time = time.time()
+                        if current_time - last_shoot > 0.2:
+                            new_bullet = Bullet(tiro_p1_img, p1)  # Cria um novo tiro
+                            all_sprites.add(new_bullet)
+                            all_bullets.add(new_bullet)
+                            last_shoot = current_time
+
                     if event.key == pygame.K_LEFT:
                         p2.speedx -= 8
                         p2.image = p2_img
@@ -271,29 +271,7 @@ while game:
                             all_bullets.add(new_bullet)
                             last_shoot = current_time
 
-                    if event.type == pygame.KEYUP:
-                        if event.key == pygame.K_a:
-                            p1.speedx += 8
-                        if event.key == pygame.K_d:
-                            p1.speedx -= 8
-
-                        if event.key == pygame.K_LEFT:
-                            p2.speedx += 8
-                        if event.key == pygame.K_RIGHT:
-                            p2.speedx -= 8
-
-                hits1 = pygame.sprite.spritecollide(p2, all_bullets, True)
-                if hits1:
-                    if vida2 != 0:
-                        vida2 -= 5
-
-                hits2 = pygame.sprite.spritecollide(p1, all_bullets, True)
-                if hits2:
-                    if vida1 != 0:
-                        vida1 -= 5
-
-                if vida1 <= 0 or vida2 <= 0:
-                    game_state = STATE_GAME_OVER
+                all_sprites.update()
 
             elif game_state == STATE_GAME_OVER:
                 if event.key == pygame.K_RETURN:
@@ -311,12 +289,71 @@ while game:
         # ...
 
     elif game_state == STATE_MAP_SELECT:
-        # Renderize a tela de seleção de mapa
         print('')
         # ...
 
     elif game_state == STATE_COMBAT:
-        # Renderize a tela de combate
+        for event in pygame.event.get():
+        # ----- Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    p1.speedx -= 8
+                    p1.image = p1_e
+                if event.key == pygame.K_d:
+                    p1.speedx += 8
+                    p1.image = p1_img
+                if event.key == pygame.K_w:
+                    p1.jump()
+                if event.key == pygame.K_SPACE:
+                    current_time = time.time()
+                    if current_time - last_shoot > 0.2:
+                        new_bullet = Bullet(tiro_p1_img, p1)  # Cria um novo tiro
+                        all_sprites.add(new_bullet)
+                        all_bullets.add(new_bullet)
+                        last_shoot = current_time
+
+                if event.key == pygame.K_LEFT:
+                    p2.speedx -= 8
+                    p2.image = p2_img
+                if event.key == pygame.K_RIGHT:
+                    p2.speedx += 8
+                    p2.image = p2_d
+                if event.key == pygame.K_UP:
+                    p2.jump()
+                if event.key == pygame.K_p:
+                    current_time = time.time()
+                    if current_time - last_shoot > 0.2:
+                        new_bullet = Bullet(tiro_p2_img, p2)  # Cria um novo tiro
+                        all_sprites.add(new_bullet)
+                        all_bullets.add(new_bullet)
+                        last_shoot = current_time
+
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_a:
+                        p1.speedx += 8
+                    if event.key == pygame.K_d:
+                        p1.speedx -= 8
+                    if event.key == pygame.K_LEFT:
+                        p2.speedx += 8
+                    if event.key == pygame.K_RIGHT:
+                        p2.speedx -= 8
+
+        hits1 = pygame.sprite.spritecollide(p2, all_bullets, True)
+        if hits1:
+            if vida2 != 0:
+                vida2 -= 5
+
+        hits2 = pygame.sprite.spritecollide(p1, all_bullets, True)
+        if hits2:
+            if vida1 != 0:
+                vida1 -= 5
+
+        if vida1 <= 0 or vida2 <= 0:
+            game_state = STATE_GAME_OVER
+
         all_sprites.update()
 
         all_sprites.draw(window)
@@ -329,7 +366,6 @@ while game:
         # ...
 
     elif game_state == STATE_GAME_OVER:
-        # Renderize a tela de game over
         if vida1 <= 0:
             image = pygame.image.load('assets/img/vitoria2.png')
         elif vida2 <= 0:
@@ -337,6 +373,8 @@ while game:
 
         vida1 = 200
         vida2 = 200
+        all_sprites.empty()
+        all_bullets.empty()
 
         image = pygame.transform.scale(image, (WIDTH, HEIGHT))
         window.blit(image, (0,0))
