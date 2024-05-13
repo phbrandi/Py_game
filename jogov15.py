@@ -21,7 +21,7 @@ JUMPING = 1
 FALLING = 2
 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('TIROTEIO')
+pygame.display.set_caption('DESSOFT FIGHTERS')
 fonte = pygame.font.Font(None, 40)
 
 # ----- Inicia estruturas de dados
