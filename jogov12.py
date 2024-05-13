@@ -148,6 +148,8 @@ all_sprites.add(p2)
 
 vida1 = 200
 vida2 = 200
+wins1 = 0
+wins2 = 0
 
 last_shoot = 0
 # ===== Loop principal =====
@@ -262,10 +264,18 @@ while game != 'encerrar':
             texto_vida1 = fonte.render(f'Player 1: {vida1}', True, (255, 255, 255), (0, 0, 0))
             texto_vida2 = fonte.render(f'Player 2: {vida2}', True, (255, 255, 255), (0, 0, 0))
 
+            placar = fonte.render(f'{wins1} X {wins2}', True, (255, 255, 255))
+
             window.blit(texto_vida1, (10, 10))
             window.blit(texto_vida2, (618, 10))
 
+            window.blit(placar, (WIDTH / 2 - 25, 10))
+
             if vida1 == 0 or vida2 == 0:
+                if vida1 == 0:
+                    wins2 += 1
+                if vida2 == 0:
+                    wins1 += 1
                 game = False
         
         pygame.display.update()  # Mostra o novo frame para o jogador
