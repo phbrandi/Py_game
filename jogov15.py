@@ -27,7 +27,7 @@ fonte = pygame.font.Font(None, 40)
 # ----- Inicia estruturas de dados
 game = True
 game_start = False
-wait = False
+escolheu_mapa = False
 
 
 # ----- Inicia assets 
@@ -167,43 +167,46 @@ while game != 'encerrar':
 
             if event.type == pygame.KEYDOWN:
                 if game_start == False:
-                    if event.key == pygame.K_RETURN:
-                        image = pygame.image.load('assets/img/Escolha_mapas.png')
-                        image = pygame.transform.scale(image, (WIDTH, HEIGHT))
-                        window.blit(image, (0,0))
-                    if event.key == pygame.K_1:
-                        image = pygame.image.load('assets/img/Background_1.jpg').convert()
-                        image = pygame.transform.scale(image, (WIDTH, HEIGHT))
-                        window.blit(image, (0,0))
-                        game_start = True
-                        musica = pygame.mixer.music.load('assets/som/mapa1.mp3')
-                        pygame.mixer.music.play(loops=-1)
-                        GROUND = 440
-                    if event.key == pygame.K_2:
-                        image = pygame.image.load('assets/img/Background_2.jpg').convert()
-                        image = pygame.transform.scale(image, (WIDTH, HEIGHT))
-                        window.blit(image, (0,0))
-                        game_start = True
-                        musica = pygame.mixer.music.load('assets/som/mapa2.mp3')
-                        pygame.mixer.music.play(loops=-1)
-                        GROUND = 450
-                    if event.key == pygame.K_3:
-                        image = pygame.image.load('assets/img/Background_3.jpg').convert()
-                        image = pygame.transform.scale(image, (WIDTH, HEIGHT))
-                        window.blit(image, (0,0))
-                        game_start = True
-                        musica = pygame.mixer.music.load('assets/som/mapa3.mp3')
-                        pygame.mixer.music.set_volume(1.0)
-                        pygame.mixer.music.play(loops=-1)
-                        GROUND = 460
-                    if event.key == pygame.K_4:
-                        image = pygame.image.load('assets/img/Background_4.jpg').convert()
-                        image = pygame.transform.scale(image, (WIDTH, HEIGHT))
-                        window.blit(image, (0,0))
-                        game_start = True
-                        musica = pygame.mixer.music.load('assets/som/mapa4.mp3')
-                        pygame.mixer.music.play(loops=-1)
-                        GROUND = 460
+                    if escolheu_mapa == False:
+                        if event.key == pygame.K_RETURN:
+                            image = pygame.image.load('assets/img/Escolha_mapas.png')
+                            image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                            window.blit(image, (0,0))
+                            escolheu_mapa = True
+                    else:
+                        if event.key == pygame.K_1:
+                            image = pygame.image.load('assets/img/Background_1.jpg').convert()
+                            image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                            window.blit(image, (0,0))
+                            game_start = True
+                            musica = pygame.mixer.music.load('assets/som/mapa1.mp3')
+                            pygame.mixer.music.play(loops=-1)
+                            GROUND = 440
+                        if event.key == pygame.K_2:
+                            image = pygame.image.load('assets/img/Background_2.jpg').convert()
+                            image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                            window.blit(image, (0,0))
+                            game_start = True
+                            musica = pygame.mixer.music.load('assets/som/mapa2.mp3')
+                            pygame.mixer.music.play(loops=-1)
+                            GROUND = 450
+                        if event.key == pygame.K_3:
+                            image = pygame.image.load('assets/img/Background_3.jpg').convert()
+                            image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                            window.blit(image, (0,0))
+                            game_start = True
+                            musica = pygame.mixer.music.load('assets/som/mapa3.mp3')
+                            pygame.mixer.music.set_volume(1.0)
+                            pygame.mixer.music.play(loops=-1)
+                            GROUND = 460
+                        if event.key == pygame.K_4:
+                            image = pygame.image.load('assets/img/Background_4.jpg').convert()
+                            image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                            window.blit(image, (0,0))
+                            game_start = True
+                            musica = pygame.mixer.music.load('assets/som/mapa4.mp3')
+                            pygame.mixer.music.play(loops=-1)
+                            GROUND = 460
 
                 else:
                     if event.key == pygame.K_a:
@@ -285,7 +288,7 @@ while game != 'encerrar':
                     wins2 += 1
                 if vida2 == 0:
                     wins1 += 1
-    
+                
                 musica = pygame.mixer.music.load('assets/som/fatality.mp3')
                 pygame.mixer.music.set_volume(0.8)
                 pygame.mixer.music.play()
@@ -326,6 +329,7 @@ while game != 'encerrar':
                     musica = pygame.mixer.music.load('assets/som/inicio.mp3')
                     pygame.mixer.music.set_volume(0.4)
                     pygame.mixer.music.play(loops=-1)
+                    escolheu_mapa = False
                     game = True
 
         pygame.display.update() 
