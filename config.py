@@ -1,18 +1,21 @@
 from os import path
 
-# Estabelece a pasta que contem as figuras e sons.
-IMG_DIR = path.join(path.dirname(__file__), 'assets', 'img')
-SND_DIR = path.join(path.dirname(__file__), 'assets', 'snd')
-FNT_DIR = path.join(path.dirname(__file__), 'assets', 'font')
-
 # Dados gerais do jogo.
-WIDTH = 499 # Largura da tela
-HEIGHT = 600 # Altura da tela
-FPS = 60 # Frames por segundo
+WIDTH = 800 # Largura da tela
+HEIGHT = 500 # Altura da tela
+FPS = 30 # Frames por segundo
+GRAVITY = 2
+JUMP_SIZE = 25
+GROUND = 280
+STILL = 0
+JUMPING = 1
+FALLING = 2
 
 # Define tamanhos
-PLAYER_WIDTH = 50
-PLAYER_HEIGHT = 38
+PLAYER_WIDTH = 60
+PLAYER_HEIGHT = 90
+SHOT_WIDTH = 40
+SHOT_HEIGHT = 20
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)

@@ -1,43 +1,45 @@
 import pygame
-import os
-from config import METEOR_WIDTH, METEOR_HEIGHT, SHIP_WIDTH, SHIP_HEIGHT, IMG_DIR, SND_DIR, FNT_DIR
+from config import PLAYER_WIDTH, PLAYER_HEIGHT, SHOT_WIDTH, SHOT_HEIGHT
 
+#SPRITES JOGADORES E TIRO
+P1_D = pygame.image.load('assets/img/player1.png').convert_alpha()
+P1_D = pygame.transform.scale(P1_D, (PLAYER_WIDTH, PLAYER_HEIGHT))
 
-BACKGROUND = 'background'
-METEOR_IMG = 'meteor_img'
-METEOR_IMG = 'meteor_img'
-SHIP_IMG = 'ship_img'
-SHIP_IMG = 'ship_img'
-BULLET_IMG = 'bullet_img'
-EXPLOSION_ANIM = 'explosion_anim'
-SCORE_FONT = 'score_font'
-BOOM_SOUND = 'boom_sound'
-DESTROY_SOUND = 'destroy_sound'
-PEW_SOUND = 'pew_sound'
+P2_E = pygame.image.load('assets/img/player2.png').convert_alpha()
+P2_E = pygame.transform.scale(P2_E, (PLAYER_WIDTH, PLAYER_HEIGHT))
 
+P1_E = pygame.image.load('assets/img/p1_esquerda.png').convert_alpha()
+P1_E = pygame.transform.scale(P1_E, (PLAYER_WIDTH, PLAYER_HEIGHT))
 
-def load_assets():
-    assets = {}
-    assets[BACKGROUND] = pygame.image.load(os.path.join(IMG_DIR, 'starfield.png')).convert()
-    assets[METEOR_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'meteorBrown_med1.png')).convert_alpha()
-    assets[METEOR_IMG] = pygame.transform.scale(assets['meteor_img'], (METEOR_WIDTH, METEOR_HEIGHT))
-    assets[SHIP_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'playerShip1_orange.png')).convert_alpha()
-    assets[SHIP_IMG] = pygame.transform.scale(assets['ship_img'], (SHIP_WIDTH, SHIP_HEIGHT))
-    assets[BULLET_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'laserRed16.png')).convert_alpha()
-    explosion_anim = []
-    for i in range(9):
-        # Os arquivos de animação são numerados de 00 a 08
-        filename = os.path.join(IMG_DIR, 'regularExplosion0{}.png'.format(i))
-        img = pygame.image.load(filename).convert()
-        img = pygame.transform.scale(img, (32, 32))
-        explosion_anim.append(img)
-    assets[EXPLOSION_ANIM] = explosion_anim
-    assets[SCORE_FONT] = pygame.font.Font(os.path.join(FNT_DIR, 'PressStart2P.ttf'), 28)
+P2_D = pygame.image.load('assets/img/p2_direita.png').convert_alpha()
+P2_D = pygame.transform.scale(P2_D, (PLAYER_WIDTH, PLAYER_HEIGHT))
 
-    # Carrega os sons do jogo
-    pygame.mixer.music.load(os.path.join(SND_DIR, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
-    pygame.mixer.music.set_volume(0.4)
-    assets[BOOM_SOUND] = pygame.mixer.Sound(os.path.join(SND_DIR, 'expl3.wav'))
-    assets[DESTROY_SOUND] = pygame.mixer.Sound(os.path.join(SND_DIR, 'expl6.wav'))
-    assets[PEW_SOUND] = pygame.mixer.Sound(os.path.join(SND_DIR, 'pew.wav'))
-    return assets
+TIRO_P1_D = pygame.image.load('assets/img/tiro1.png').convert_alpha()
+TIRO_P1_D = pygame.transform.scale(TIRO_P1_D, (SHOT_WIDTH, SHOT_HEIGHT))
+
+TIRO_P2_E = pygame.image.load('assets/img/tiro2.png').convert_alpha()
+TIRO_P2_E = pygame.transform.scale(TIRO_P2_E, (SHOT_WIDTH, SHOT_HEIGHT))
+
+TIRO_P1_E= pygame.image.load('assets/img/tiro1_esquerda.png').convert_alpha()
+TIRO_P1_E = pygame.transform.scale(TIRO_P1_E, (SHOT_WIDTH, SHOT_HEIGHT))
+
+TIRO_P2_D= pygame.image.load('assets/img/tiro2_direita.png').convert_alpha()
+TIRO_P2_D = pygame.transform.scale(TIRO_P2_D, (SHOT_WIDTH, SHOT_HEIGHT))
+
+#BACKGROUNDS
+INICIO = pygame.image.load('assets/img/inicio.png').convert()
+ESCOLHE_MAPA = pygame.image.load('assets/img/Escolha_mapas.png').convert()
+B_MAPA_1 = pygame.image.load('assets/img/Background_1.jpg').convert()
+B_MAPA_2 = pygame.image.load('assets/imgass/Background_2.jpg').convert()
+B_MAPA_3 = pygame.image.load('assets/img/Background_3.jpg').convert()
+B_MAPA_4 = pygame.image.load('assets/img/Background_4.jpg').convert()
+VITORIA_P1 = pygame.image.load('assets/img/vitoria1.png').convert()
+VITORIA_P2 = pygame.image.load('assets/img/vitoria2.png').convert()
+
+#MUSICA
+SND_INICIO = pygame.mixer.music.load('assets/som/inicio.mp3')
+SND_MAPA_1 = pygame.mixer.music.load('assets/som/mapa1.mp3')
+SND_MAPA_2 = pygame.mixer.music.load('assets/som/mapa2.mp3')
+SND_MAPA_3 = pygame.mixer.music.load('assets/som/mapa3.mp3')
+SND_MAPA_4 = pygame.mixer.music.load('assets/som/mapa4.mp3')
+SND_FATALITY = pygame.mixer.music.load('assets/som/fatality.mp3')
