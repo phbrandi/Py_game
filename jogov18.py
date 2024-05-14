@@ -166,7 +166,8 @@ vida2 = 200
 wins1 = 0
 wins2 = 0
 instru = False
-last_shoot = 0
+last_shoot1 = 0
+last_shoot2 = 0
 # ===== Loop principal =====
 pygame.mixer.music.play(loops=-1)
 while game != 'encerrar':
@@ -241,11 +242,11 @@ while game != 'encerrar':
                         p1.jump()
                     if event.key == pygame.K_SPACE:
                         current_time = time.time()
-                        if current_time - last_shoot > 0.2:
+                        if current_time - last_shoot1 > 0.2:
                             new_bullet = Bullet(tiro_p1_img, p1)  # Cria um novo tiro
                             all_sprites.add(new_bullet)
                             all_bullets.add(new_bullet)
-                            last_shoot = current_time
+                            last_shoot1 = current_time
                         
 
 
@@ -260,11 +261,11 @@ while game != 'encerrar':
                         p2.jump()
                     if event.key == pygame.K_p:
                         current_time = time.time()
-                        if current_time - last_shoot > 0.2:
+                        if current_time - last_shoot2 > 0.2:
                             new_bullet = Bullet(tiro_p2_img, p2)  # Cria um novo tiro
                             all_sprites.add(new_bullet)
                             all_bullets.add(new_bullet)
-                            last_shoot = current_time
+                            last_shoot2 = current_time
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
