@@ -99,8 +99,8 @@ class player(pygame.sprite.Sprite):
         if self.state == STILL:
             self.speedy -= JUMP_SIZE
             self.state = JUMPING
-
-
+p1 = player(p1_img, 100)
+p2 = player(p2_img, 700)
 class Bullet(pygame.sprite.Sprite):
     # Construtor da classe.
     def __init__(self, img, player):
@@ -284,7 +284,7 @@ while game != 'encerrar':
 
             all_sprites.update()
 
-            window.blit(image, (0, 0))
+            #window.blit(image, (0, 0))
 
             all_sprites.draw(window)
 
@@ -310,7 +310,7 @@ while game != 'encerrar':
 
     if game == False:
         
-        window.blit(image, (0, 0))
+        #window.blit(image, (0, 0))
         clock.tick(FPS)
         # ----- Trata eventos
         all_sprites.empty()
@@ -321,6 +321,8 @@ while game != 'encerrar':
         elif vida2 == 0:
             image = pygame.image.load('assets/img/vitoria1.png').convert_alpha()
             image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+
+        window.blit(image, (0, 0))
 
         for event in pygame.event.get():
         # ----- Verifica consequências

@@ -68,7 +68,7 @@ VITORIA_P2 = pygame.image.load(os.path.join(IMG_DIR, 'vitoria2.png')).convert()
 VITORIA_P2 = pygame.transform.scale(VITORIA_P2, (WIDTH, HEIGHT))
 assets["VITORIA_P2"] = VITORIA_P2
 
-P1_D = pygame.image.load(os.path.join(IMG_DIR, 'player1.png')).convert()
+P1_D = pygame.image.load(os.path.join(IMG_DIR, 'player1.png')).convert_alpha()
 P1_D = pygame.transform.scale(P1_D, (PLAYER_WIDTH, PLAYER_HEIGHT))
 assets["P1_D"] = P1_D
 
