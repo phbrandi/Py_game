@@ -146,19 +146,19 @@ all_bullets = pygame.sprite.Group()
 all_sprites.add(p1)
 all_sprites.add(p2)
 
-def draw_health_bar(surface, x, y, health, max_health, color):
-    """Desenha uma barra de vida na tela."""
+def health_bar(surface, x, y, health, max_health, color):
+    # Desenha uma barra de vida na tela.
     BAR_LENGTH = 100
     BAR_HEIGHT = 20
 
     # Calcula a largura da barra de vida proporcional à saúde atual
-    fill = (health / max_health) * BAR_LENGTH
-    outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
-    fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
+    barra = (health / max_health) * BAR_LENGTH
+    contorno = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
+    barra_rect = pygame.Rect(x, y, barra, BAR_HEIGHT)
 
     # Desenha a barra de vida
-    pygame.draw.rect(surface, color, fill_rect)
-    pygame.draw.rect(surface, (255, 255, 255), outline_rect, 2)
+    pygame.draw.rect(surface, color, barra_rect)
+    pygame.draw.rect(surface, (255, 255, 255), contorno, 2)
 
 
 vida1 = 200
@@ -288,8 +288,8 @@ while game != 'encerrar':
 
             all_sprites.draw(window)
 
-            draw_health_bar(window, 10, 10, vida1, 200, (0, 255, 0))  # Barra de vida do Player 1
-            draw_health_bar(window, 690, 10, vida2, 200, (0, 255, 0))  # Barra de vida do Player 2
+            health_bar(window, 10, 10, vida1, 200, (0, 255, 0))  # Barra de vida do Player 1
+            health_bar(window, 690, 10, vida2, 200, (0, 255, 0))  # Barra de vida do Player 2
 
             placar = fonte.render(f'{wins1} X {wins2}', True, (255, 255, 255))
 
