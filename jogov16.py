@@ -28,6 +28,7 @@ fonte = pygame.font.Font(None, 40)
 game = True
 game_start = False
 escolheu_mapa = False
+instru = False
 
 
 # ----- Inicia assets 
@@ -165,7 +166,6 @@ vida1 = 200
 vida2 = 200
 wins1 = 0
 wins2 = 0
-instru = False
 last_shoot1 = 0
 last_shoot2 = 0
 # ===== Loop principal =====
