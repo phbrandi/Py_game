@@ -203,7 +203,7 @@ while game != 'encerrar':
                                 image = pygame.transform.scale(image, (WIDTH, HEIGHT))
                                 window.blit(image, (0,0))
                                 game_start = True
-                                musica = pygame.mixer.music.load('assets/som/mapa1.mp3')
+                                pygame.mixer.music.load('assets/som/mapa1.mp3')
                                 pygame.mixer.music.play(loops=-1)
                                 GROUND = 440
                             if event.key == pygame.K_2:
