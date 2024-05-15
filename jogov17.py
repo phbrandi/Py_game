@@ -8,25 +8,11 @@ fonte = pygame.font.Font(None, 40)
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 from assets import assets
 from sprites import player,Bullet
-from config import GROUND
+from config import GROUND, health_bar
 
 
 all_sprites = pygame.sprite.Group()
 all_bullets = pygame.sprite.Group()
-
-def health_bar(surface, x, y, health, max_health, color):
-    # Desenha uma barra de vida na tela.
-    BAR_LENGTH = 100
-    BAR_HEIGHT = 20
-
-    # Calcula a largura da barra de vida proporcional à saúde atual
-    barra = (health / max_health) * BAR_LENGTH
-    contorno = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
-    barra_rect = pygame.Rect(x, y, barra, BAR_HEIGHT)
-
-    # Desenha a barra de vida
-    pygame.draw.rect(surface, color, barra_rect)
-    pygame.draw.rect(surface, (255, 255, 255), contorno, 2)
 
 vida1 = 200
 vida2 = 200
@@ -62,8 +48,8 @@ while game != 'encerrar':
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
                 game = 'encerrar'
+                pygame.quit()
                 
-
             if event.type == pygame.KEYDOWN:
                 if game_start == False:
                     if instru == False:
@@ -229,3 +215,4 @@ while game != 'encerrar':
                     game = True
 
         pygame.display.update() 
+

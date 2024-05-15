@@ -79,5 +79,3 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.x > WIDTH or self.rect.x < 0:
             self.kill() 
 
-p1 = player(assets['P1_D'], 100, GROUND)
-p2 = player(assets['P2_E'], 700, GROUND)
