@@ -1,7 +1,7 @@
 import random
 import pygame
-from config import WIDTH, GRAVITY,FALLING,JUMPING,STILL,JUMP_SIZE
-from assets import P1_D,TIRO_P1_D,P1_E,TIRO_P1_E,P2_E,TIRO_P2_E,P2_D,TIRO_P2_D
+from config import WIDTH, GRAVITY,FALLING,JUMPING,STILL,JUMP_SIZE, GROUND
+from assets import P1_D,TIRO_P1_D,P1_E,TIRO_P1_E,P2_E,TIRO_P2_E,P2_D,TIRO_P2_D, assets
 
 class player(pygame.sprite.Sprite):
     def __init__(self, img, pos,GROUND):
@@ -77,3 +77,4 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.x += self.speedx
         if self.rect.x > WIDTH or self.rect.x < 0:
             self.kill() 
+
