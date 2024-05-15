@@ -63,6 +63,7 @@ image = pygame.transform.scale(image, (WIDTH, HEIGHT))
 musica = pygame.mixer.music.load('assets/som/inicio.mp3')
 pygame.mixer.music.set_volume(0.4)
 
+
 class player(pygame.sprite.Sprite):
     def __init__(self, img, pos):
 
@@ -292,7 +293,7 @@ while game != 'encerrar':
 
             all_sprites.update()
 
-            #window.blit(image, (0, 0))
+            
 
             all_sprites.draw(window)
 
@@ -318,7 +319,7 @@ while game != 'encerrar':
 
     if game == False:
         
-        #window.blit(image, (0, 0))
+        
         clock.tick(FPS)
         # ----- Trata eventos
         all_sprites.empty()
