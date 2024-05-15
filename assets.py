@@ -29,6 +29,9 @@ B_MAPA_4 = 'Background_4.jpg'
 VITORIA_P1 = 'vitoria1.jpg'
 VITORIA_P2 = 'vitoria2.jpg'
 
+#SONS
+
+
 assets = {}
 
 # Carregar e transformar os ativos
@@ -99,3 +102,21 @@ assets["TIRO_P2_E"] = TIRO_P2_E
 TIRO_P2_D = pygame.image.load(os.path.join(IMG_DIR, 'tiro2_direita.png')).convert_alpha()
 TIRO_P2_D = pygame.transform.scale(TIRO_P2_D, (SHOT_WIDTH, SHOT_HEIGHT))
 assets["TIRO_P2_D"] = TIRO_P2_D
+
+SND_INICIO = pygame.mixer.music.load('assets/som/inicio.mp3')
+assets['SND_INICIO'] = SND_INICIO
+
+SND_MAPA_1 = pygame.mixer.music.load('assets/som/mapa1.mp3')
+assets['SND_MAPA_1'] = SND_MAPA_1
+
+SND_MAPA_2 = pygame.mixer.music.load('assets/som/mapa2.mp3')
+assets['SND_MAPA_2'] = SND_MAPA_2
+
+SND_MAPA_3 = pygame.mixer.music.load('assets/som/mapa3.mp3')
+assets['SND_MAPA_3'] = SND_MAPA_3
+
+SND_MAPA_4 = pygame.mixer.music.load('assets/som/mapa4.mp3')
+assets['SND_MAPA_4'] = SND_MAPA_4
+
+FATALITY = pygame.mixer.music.load('assets/som/fatality.mp3')
+assets['FATALITY'] = FATALITY

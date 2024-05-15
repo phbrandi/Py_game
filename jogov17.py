@@ -54,6 +54,8 @@ all_sprites.add(p2)
 while game != 'encerrar':
     if game:
         window.blit(image, (0, 0))
+        musica = assets['INICIO']
+        pygame.mixer.music.play(loops=-1)
         clock.tick(FPS)
         # ----- Trata eventos
         for event in pygame.event.get():
@@ -80,30 +82,30 @@ while game != 'encerrar':
                                 image = assets['B_MAPA_1']
                                 window.blit(image, (0,0))
                                 game_start = True
-                                # musica = pygame.mixer.music.load('assets/som/mapa1.mp3')
-                                # pygame.mixer.music.play(loops=-1)
+                                musica = assets['SND_MAPA_1']
+                                pygame.mixer.music.play(loops=-1)
                                 GROUND = 440
                             if event.key == pygame.K_2:
                                 image = assets['B_MAPA_2']
                                 window.blit(image, (0,0))
                                 game_start = True
-                                # musica = pygame.mixer.music.load('assets/som/mapa2.mp3')
-                                # pygame.mixer.music.play(loops=-1)
+                                musica = assets['SND_MAPA_2']
+                                pygame.mixer.music.play(loops=-1)
                                 GROUND = 450
                             if event.key == pygame.K_3:
                                 image = assets['B_MAPA_3']
                                 window.blit(image, (0,0))
                                 game_start = True
-                                # musica = pygame.mixer.music.load('assets/som/mapa3.mp3')
-                                # pygame.mixer.music.set_volume(1.0)
-                                # pygame.mixer.music.play(loops=-1)
+                                musica = assets['SND_MAPA_3']
+                                pygame.mixer.music.set_volume(1.0)
+                                pygame.mixer.music.play(loops=-1)
                                 GROUND = 460
                             if event.key == pygame.K_4:
                                 image = assets['B_MAPA_4']
                                 window.blit(image, (0,0))
                                 game_start = True
-                                # musica = pygame.mixer.music.load('assets/som/mapa4.mp3')
-                                # pygame.mixer.music.play(loops=-1)
+                                musica = assets['SND_MAPA_4']
+                                pygame.mixer.music.play(loops=-1)
                                 GROUND = 460
 
                 else:
@@ -184,9 +186,9 @@ while game != 'encerrar':
                 if vida2 == 0:
                     wins1 += 1
                 
-                # musica = pygame.mixer.music.load('assets/som/fatality.mp3')
-                # pygame.mixer.music.set_volume(0.8)
-                # pygame.mixer.music.play()
+                musica = assets['FATALITY']
+                pygame.mixer.music.set_volume(0.8)
+                pygame.mixer.music.play()
                 game = False
         
         pygame.display.update()  # Mostra o novo frame para o jogador
@@ -220,9 +222,9 @@ while game != 'encerrar':
                     p2 = player(assets['P2_E'], 700, GROUND)
                     all_sprites.add(p1)
                     all_sprites.add(p2)
-                    # musica = pygame.mixer.music.load('assets/som/inicio.mp3')
-                    # pygame.mixer.music.set_volume(0.4)
-                    # pygame.mixer.music.play(loops=-1)
+                    musica = assets['SND_INICIO']
+                    pygame.mixer.music.set_volume(0.4)
+                    pygame.mixer.music.play(loops=-1)
                     escolheu_mapa = False
                     game = True
 
