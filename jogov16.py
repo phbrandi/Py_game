@@ -353,6 +353,7 @@ while game != 'encerrar':
                     pygame.mixer.music.set_volume(0.4)
                     pygame.mixer.music.play(loops=-1)
                     escolheu_mapa = False
+                    instru = False
                     game = True
 
         pygame.display.update() 

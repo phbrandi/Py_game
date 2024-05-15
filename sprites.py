@@ -5,7 +5,7 @@ from assets import P1_D,TIRO_P1_D,P1_E,TIRO_P1_E,P2_E,TIRO_P2_E,P2_D,TIRO_P2_D, 
 
 class player(pygame.sprite.Sprite):
     def __init__(self, img, pos,GROUND):
-        from jogov17 import GROUND
+        from jogovteste3 import GROUND
         pygame.sprite.Sprite.__init__(self)
         self.image = img
         self.orig_image = img
@@ -16,7 +16,7 @@ class player(pygame.sprite.Sprite):
         self.speedy = 0
        
     def update(self):
-        from jogov17 import GROUND
+        from jogovteste3 import GROUND
         self.rect.x += self.speedx
         
         # Mantem dentro da tela
@@ -43,7 +43,7 @@ class player(pygame.sprite.Sprite):
 class Bullet(pygame.sprite.Sprite):
     # Construtor da classe.
     def __init__(self, img, player):
-        from jogov17 import p1,p2
+        from jogovteste3 import p1,p2
         pygame.sprite.Sprite.__init__(self)
 
         self.image = img

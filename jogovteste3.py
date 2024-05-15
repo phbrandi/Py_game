@@ -1,93 +1,18 @@
-# ===== Inicialização =====
-# ----- Importa e inicia pacotes
-import pygame
-from time import sleep
-import time
-from classes import Player, Bullet
-from assets import assets
-clock = pygame.time.Clock()
-FPS = 30
 
+import pygame
+from config import FPS,WIDTH,HEIGHT,clock
+import time
 pygame.init()
 pygame.mixer.init()
-# ----- Gera tela principal
-WIDTH = 800
-HEIGHT = 500
-
-GRAVITY = 2
-JUMP_SIZE = 25
-GROUND = 280
-
-STILL = 0
-JUMPING = 1
-FALLING = 2
-
-window = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('DESSOFT FIGHTERS')
 fonte = pygame.font.Font(None, 40)
-
-# ----- Inicia estruturas de dados
-game = True
-game_start = False
-escolheu_mapa = False
-instru = False
+window = pygame.display.set_mode((WIDTH, HEIGHT))
+from assets import assets
+from sprites import player,Bullet
+from config import GROUND, health_bar
 
 
-# ----- Inicia assets 
-
-p1_img = pygame.image.load('assets/img/player1.png').convert_alpha()
-p1_img = pygame.transform.scale(p1_img, (60, 90))
-
-p2_img = pygame.image.load('assets/img/player2.png').convert_alpha()
-p2_img = pygame.transform.scale(p2_img, (60, 90))
-
-p1_e = pygame.image.load('assets/img/p1_esquerda.png').convert_alpha()
-p1_e = pygame.transform.scale(p1_e, (60, 90))
-
-p2_d = pygame.image.load('assets/img/p2_direita.png').convert_alpha()
-p2_d = pygame.transform.scale(p2_d, (60, 90))
-
-tiro_p1_img = pygame.image.load('assets/img/tiro1.png').convert_alpha()
-tiro_p1_img = pygame.transform.scale(tiro_p1_img, (40, 20))
-
-tiro_p2_img = pygame.image.load('assets/img/tiro2.png').convert_alpha()
-tiro_p2_img = pygame.transform.scale(tiro_p2_img, (40, 20))
-
-tiro_p1_e= pygame.image.load('assets/img/tiro1_esquerda.png').convert_alpha()
-tiro_p1_e = pygame.transform.scale(tiro_p1_e, (40, 20))
-
-tiro_p2_d= pygame.image.load('assets/img/tiro2_direita.png').convert_alpha()
-tiro_p2_d = pygame.transform.scale(tiro_p2_d, (40, 20))
-
-image = pygame.image.load('assets/img/inicio.png').convert_alpha()
-image = pygame.transform.scale(image, (WIDTH, HEIGHT))
-
-musica = pygame.mixer.music.load('assets/som/inicio.mp3')
-pygame.mixer.music.set_volume(0.4)
-
-
-                
-p1 = player(p1_img, 100)
-p2 = player(p2_img, 700)
 all_sprites = pygame.sprite.Group()
 all_bullets = pygame.sprite.Group()
-all_sprites.add(p1)
-all_sprites.add(p2)
-
-def health_bar(surface, x, y, health, max_health, color):
-    # Desenha uma barra de vida na tela.
-    BAR_LENGTH = 100
-    BAR_HEIGHT = 20
-
-    # Calcula a largura da barra de vida proporcional à saúde atual
-    barra = (health / max_health) * BAR_LENGTH
-    contorno = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
-    barra_rect = pygame.Rect(x, y, barra, BAR_HEIGHT)
-
-    # Desenha a barra de vida
-    pygame.draw.rect(surface, color, barra_rect)
-    pygame.draw.rect(surface, (255, 255, 255), contorno, 2)
-
 
 vida1 = 200
 vida2 = 200
@@ -95,82 +20,92 @@ wins1 = 0
 wins2 = 0
 last_shoot1 = 0
 last_shoot2 = 0
+
+instru = False
+game = True
+game_start = False
+escolheu_mapa = False
+
+image = assets["INICIO"]
+
+p1 = player(assets['P1_D'], 100, GROUND)
+p2 = player(assets['P2_E'], 700, GROUND)
+all_sprites = pygame.sprite.Group()
+all_bullets = pygame.sprite.Group()
+all_sprites.add(p1)
+all_sprites.add(p2)
+
 # ===== Loop principal =====
-pygame.mixer.music.play(loops=-1)
+# pygame.mixer.music.play(loops=-1)
 while game != 'encerrar':
     if game:
         window.blit(image, (0, 0))
+        musica = pygame.mixer.music.load('assets/som/inicio.mp3')
+        pygame.mixer.music.play(loops=-1)
         clock.tick(FPS)
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
-                game = 'encerrar'
-                
-
+                game = 'encerrar' 
             if event.type == pygame.KEYDOWN:
                 if game_start == False:
                     if instru == False:
                         if event.key == pygame.K_RETURN:
-                            image = pygame.image.load('assets/img/instrucoes.png')
-                            image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                            image = assets['INSTRUCOES']
                             window.blit(image, (0,0))
-                            instru = True
+                            instru= True
                     else:
                         if escolheu_mapa == False:
                             if event.key == pygame.K_RETURN:
-                                image = pygame.image.load('assets/img/Escolha_mapas.png')
-                                image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                                image = assets['ESCOLHE_MAPA']
                                 window.blit(image, (0,0))
                                 escolheu_mapa = True
                         else:
                             if event.key == pygame.K_1:
-                                image = pygame.image.load('assets/img/Background_1.jpg').convert()
-                                image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                                image = assets['B_MAPA_1']
                                 window.blit(image, (0,0))
                                 game_start = True
-                                musica = pygame.mixer.music.load('assets/som/mapa1.mp3')
-                                pygame.mixer.music.play(loops=-1)
+                                musica = assets['FATALITY']
+                                pygame.mixer.music.set_volume(0.8)
+                                pygame.mixer.music.play()
                                 GROUND = 440
                             if event.key == pygame.K_2:
-                                image = pygame.image.load('assets/img/Background_2.jpg').convert()
-                                image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                                image = assets['B_MAPA_2']
                                 window.blit(image, (0,0))
                                 game_start = True
-                                musica = pygame.mixer.music.load('assets/som/mapa2.mp3')
+                                musica = assets['SND_MAPA_2']
                                 pygame.mixer.music.play(loops=-1)
                                 GROUND = 450
                             if event.key == pygame.K_3:
-                                image = pygame.image.load('assets/img/Background_3.jpg').convert()
-                                image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                                image = assets['B_MAPA_3']
                                 window.blit(image, (0,0))
                                 game_start = True
-                                musica = pygame.mixer.music.load('assets/som/mapa3.mp3')
+                                musica = assets['SND_MAPA_3']
                                 pygame.mixer.music.set_volume(1.0)
                                 pygame.mixer.music.play(loops=-1)
                                 GROUND = 460
                             if event.key == pygame.K_4:
-                                image = pygame.image.load('assets/img/Background_4.jpg').convert()
-                                image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                                image = assets['B_MAPA_4']
                                 window.blit(image, (0,0))
                                 game_start = True
-                                musica = pygame.mixer.music.load('assets/som/mapa4.mp3')
+                                musica = assets['SND_MAPA_4']
                                 pygame.mixer.music.play(loops=-1)
                                 GROUND = 460
 
                 else:
                     if event.key == pygame.K_a:
                         p1.speedx -= 8
-                        p1.image = p1_e
+                        p1.image = assets['P1_E']
                     if event.key == pygame.K_d:
                         p1.speedx += 8
-                        p1.image = p1_img
+                        p1.image = assets['P1_D']
                     if event.key == pygame.K_w:
                         p1.jump()
                     if event.key == pygame.K_SPACE:
                         current_time = time.time()
                         if current_time - last_shoot1 > 0.2:
-                            new_bullet = Bullet(tiro_p1_img, p1)  # Cria um novo tiro
+                            new_bullet = Bullet(assets["TIRO_P1_D"], p1)  # Cria um novo tiro
                             all_sprites.add(new_bullet)
                             all_bullets.add(new_bullet)
                             last_shoot1 = current_time
@@ -180,16 +115,16 @@ while game != 'encerrar':
                         
                     if event.key == pygame.K_LEFT:
                         p2.speedx -= 8
-                        p2.image = p2_img
+                        p2.image = assets['P2_E']
                     if event.key == pygame.K_RIGHT:
                         p2.speedx += 8
-                        p2.image = p2_d
+                        p2.image = assets['P2_D']
                     if event.key == pygame.K_UP:
                         p2.jump()
                     if event.key == pygame.K_p:
                         current_time = time.time()
                         if current_time - last_shoot2 > 0.2:
-                            new_bullet = Bullet(tiro_p2_img, p2)  # Cria um novo tiro
+                            new_bullet = Bullet(assets["TIRO_P2_E"], p2)  # Cria um novo tiro
                             all_sprites.add(new_bullet)
                             all_bullets.add(new_bullet)
                             last_shoot2 = current_time
@@ -219,7 +154,7 @@ while game != 'encerrar':
 
             all_sprites.update()
 
-            
+            #window.blit(image, (0, 0))
 
             all_sprites.draw(window)
 
@@ -236,7 +171,7 @@ while game != 'encerrar':
                 if vida2 == 0:
                     wins1 += 1
                 
-                musica = pygame.mixer.music.load('assets/som/fatality.mp3')
+                musica = assets['FATALITY']
                 pygame.mixer.music.set_volume(0.8)
                 pygame.mixer.music.play()
                 game = False
@@ -245,17 +180,15 @@ while game != 'encerrar':
 
     if game == False:
         
-        
+        #window.blit(image, (0, 0))
         clock.tick(FPS)
         # ----- Trata eventos
         all_sprites.empty()
         if vida1 == 0:
-            image = pygame.image.load('assets/img/vitoria2.png').convert_alpha()
-            image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+            image = assets['VITORIA_P2']
 
         elif vida2 == 0:
-            image = pygame.image.load('assets/img/vitoria1.png').convert_alpha()
-            image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+            image = assets['VITORIA_P1']
 
         window.blit(image, (0, 0))
 
@@ -267,19 +200,18 @@ while game != 'encerrar':
                 if event.key == pygame.K_RETURN:
                     vida1 = 200
                     vida2 = 200
-                    image = pygame.image.load('assets/img/inicio.png').convert_alpha()
-                    image = pygame.transform.scale(image, (WIDTH, HEIGHT))
+                    image = assets['INICIO']
                     game_start = False
-                    p1 = player(p1_img, 100)
-                    p2 = player(p2_img, 700)
+                    GROUND = 280
+                    p1 = player(assets['P1_D'], 100, GROUND)
+                    p2 = player(assets['P2_E'], 700, GROUND)
                     all_sprites.add(p1)
                     all_sprites.add(p2)
-                    GROUND = 280
-                    musica = pygame.mixer.music.load('assets/som/inicio.mp3')
+                    musica = assets['SND_INICIO']
                     pygame.mixer.music.set_volume(0.4)
                     pygame.mixer.music.play(loops=-1)
                     escolheu_mapa = False
-                    instru = False
                     game = True
 
         pygame.display.update() 
+

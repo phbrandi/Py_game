@@ -103,20 +103,22 @@ TIRO_P2_D = pygame.image.load(os.path.join(IMG_DIR, 'tiro2_direita.png')).conver
 TIRO_P2_D = pygame.transform.scale(TIRO_P2_D, (SHOT_WIDTH, SHOT_HEIGHT))
 assets["TIRO_P2_D"] = TIRO_P2_D
 
-SND_INICIO = pygame.mixer.music.load('assets/som/inicio.mp3')
-assets['SND_INICIO'] = SND_INICIO
+SND_INICIO = pygame.mixer.Sound('assets/som/inicio.mp3')
+assets['SND_INICIO'] = 'assets/som/inicio.mp3'
 
-SND_MAPA_1 = pygame.mixer.music.load('assets/som/mapa1.mp3')
+SND_MAPA_1 = pygame.mixer.Sound('assets/som/mapa1.mp3')
 assets['SND_MAPA_1'] = SND_MAPA_1
 
-SND_MAPA_2 = pygame.mixer.music.load('assets/som/mapa2.mp3')
+SND_MAPA_2 = pygame.mixer.Sound('assets/som/mapa2.mp3')
 assets['SND_MAPA_2'] = SND_MAPA_2
 
-SND_MAPA_3 = pygame.mixer.music.load('assets/som/mapa3.mp3')
+SND_MAPA_3 = pygame.mixer.Sound('assets/som/mapa3.mp3')
 assets['SND_MAPA_3'] = SND_MAPA_3
 
-SND_MAPA_4 = pygame.mixer.music.load('assets/som/mapa4.mp3')
+SND_MAPA_4 = pygame.mixer.Sound('assets/som/mapa4.mp3')
 assets['SND_MAPA_4'] = SND_MAPA_4
 
-FATALITY = pygame.mixer.music.load('assets/som/fatality.mp3')
+FATALITY = pygame.mixer.Sound('assets/som/fatality.mp3')
 assets['FATALITY'] = FATALITY
+
+
