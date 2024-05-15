@@ -3,11 +3,6 @@ import pygame
 from config import WIDTH, GRAVITY,FALLING,JUMPING,STILL,JUMP_SIZE
 from assets import P1_D,TIRO_P1_D,P1_E,TIRO_P1_E,P2_E,TIRO_P2_E,P2_D,TIRO_P2_D
 
-
-
-
-
-
 class player(pygame.sprite.Sprite):
     def __init__(self, img, pos,GROUND):
         from jogov17 import GROUND

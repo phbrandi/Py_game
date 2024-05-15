@@ -50,7 +50,7 @@ class Bullet(pygame.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect()
     
-        if player == P1:
+        if player == p1:
             if player.image == P1_D:
                 self.rect.centerx = player.rect.x + 80
                 self.rect.centery = player.rect.y + 55
@@ -62,7 +62,7 @@ class Bullet(pygame.sprite.Sprite):
                 self.speedx = -10  # Velocidade do tiro
                 self.image = TIRO_P1_E
 
-        if player == P2:
+        if player == p2:
             if player.image == P2_E:
                 self.rect.centerx = player.rect.x - 20
                 self.rect.centery = player.rect.y + 55
@@ -78,3 +78,6 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.x += self.speedx
         if self.rect.x > WIDTH or self.rect.x < 0:
             self.kill() 
+
+p1 = player(assets['P1_D'], 100, GROUND)
+p2 = player(assets['P2_E'], 700, GROUND)
