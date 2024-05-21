@@ -13,3 +13,4 @@ DEPENDÊNCIAS: <br />
     -pygame <br />
     -time <br />
 REFERENCIAS: <br />
+        https://github.com/Insper/pygame-snippets.git       
