@@ -1,17 +1,45 @@
-
 import pygame
 import sys
-from config import FPS,WIDTH,HEIGHT,clock
+from config import FPS, WIDTH, HEIGHT, clock
 import time
 pygame.init()
 pygame.mixer.init()
 fonte = pygame.font.Font(None, 40)
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 from assets import assets 
-from sprites import player,Bullet
+from sprites import player, Bullet
 from config import GROUND, health_bar
 
+def escolhe_mapa(tecla):
+    global image, game_start, GROUND    
+    
+    mapas = {
+        pygame.K_1: ['B_MAPA_1', 'SND_MAPA_1', 440, 0.8],
+        pygame.K_2: ['B_MAPA_2', 'SND_MAPA_2', 450, 1.0],
+        pygame.K_3: ['B_MAPA_3', 'SND_MAPA_3', 460, 1.0],
+        pygame.K_4: ['B_MAPA_4', 'SND_MAPA_4', 460, 1.0]
+    }
+    
+    if tecla in mapas:
+        mapa = mapas[tecla][0]
+        som = mapas[tecla][1]
+        ground = mapas[tecla][2]
+        volume = mapas[tecla][3]
 
+        image = assets[mapa]
+
+        game_start = True
+        tocar_musica(som,volume,True)
+        GROUND = ground
+
+def tocar_musica(arquivo, volume,loops):
+    pygame.mixer.music.load(assets[arquivo])
+    pygame.mixer.music.set_volume(volume)
+    if loops:
+        pygame.mixer.music.play(loops=-1)
+    else:
+        pygame.mixer.music.play()
+        
 all_sprites = pygame.sprite.Group()
 all_bullets = pygame.sprite.Group()
 
@@ -31,69 +59,32 @@ image = assets["INICIO"]
 
 p1 = player(assets['P1_D'], 100, GROUND)
 p2 = player(assets['P2_E'], 700, GROUND)
-all_sprites = pygame.sprite.Group()
-all_bullets = pygame.sprite.Group()
-all_sprites.add(p1)
-all_sprites.add(p2)
+all_sprites.add(p1, p2)
 
-# ===== Loop principal =====
-pygame.mixer.music.load(assets['SND_INICIO'])
-pygame.mixer.music.play(loops=-1)
+tocar_musica('SND_INICIO', 0.8, True)
+
 while game != 'encerrar':
     if game:
         window.blit(image, (0, 0))
         clock.tick(FPS)
-        # ----- Trata eventos
+        
         for event in pygame.event.get():
-            # ----- Verifica consequências
             if event.type == pygame.QUIT:
                 game = 'encerrar'
-                sys.exit() 
+                sys.exit()
+            
             if event.type == pygame.KEYDOWN:
                 if game_start == False:
                     if instru == False:
                         if event.key == pygame.K_RETURN:
                             image = assets['INSTRUCOES']
-                            window.blit(image, (0,0))
-                            instru= True
+                            instru = True
+                    elif escolheu_mapa == False:
+                        if event.key == pygame.K_RETURN:
+                            image = assets['ESCOLHE_MAPA']
+                            escolheu_mapa = True
                     else:
-                        if escolheu_mapa == False:
-                            if event.key == pygame.K_RETURN:
-                                image = assets['ESCOLHE_MAPA']
-                                window.blit(image, (0,0))
-                                escolheu_mapa = True
-                        else:
-                            if event.key == pygame.K_1:
-                                image = assets['B_MAPA_1']
-                                window.blit(image, (0,0))
-                                game_start = True
-                                pygame.mixer.music.load(assets['SND_MAPA_1'])
-                                pygame.mixer.music.set_volume(0.8)
-                                pygame.mixer.music.play()
-                                GROUND = 440
-                            if event.key == pygame.K_2:
-                                image = assets['B_MAPA_2']
-                                window.blit(image, (0,0))
-                                game_start = True
-                                pygame.mixer.music.load(assets['SND_MAPA_2'])
-                                pygame.mixer.music.play(loops=-1)
-                                GROUND = 450
-                            if event.key == pygame.K_3:
-                                image = assets['B_MAPA_3']
-                                window.blit(image, (0,0))
-                                game_start = True
-                                pygame.mixer.music.load(assets['SND_MAPA_3'])
-                                pygame.mixer.music.set_volume(1.0)
-                                pygame.mixer.music.play(loops=-1)
-                                GROUND = 460
-                            if event.key == pygame.K_4:
-                                image = assets['B_MAPA_4']
-                                window.blit(image, (0,0))
-                                game_start = True
-                                pygame.mixer.music.load(assets['SND_MAPA_4'])
-                                pygame.mixer.music.play(loops=-1)
-                                GROUND = 460
-
+                        escolhe_mapa(event.key)
                 else:
                     if event.key == pygame.K_a:
                         p1.speedx -= 8
@@ -106,14 +97,10 @@ while game != 'encerrar':
                     if event.key == pygame.K_SPACE:
                         current_time = time.time()
                         if current_time - last_shoot1 > 0.2:
-                            new_bullet = Bullet(assets["TIRO_P1_D"], p1)  # Cria um novo tiro
+                            new_bullet = Bullet(assets["TIRO_P1_D"], p1)
                             all_sprites.add(new_bullet)
                             all_bullets.add(new_bullet)
                             last_shoot1 = current_time
-                        
-
-
-                        
                     if event.key == pygame.K_LEFT:
                         p2.speedx -= 8
                         p2.image = assets['P2_E']
@@ -125,45 +112,36 @@ while game != 'encerrar':
                     if event.key == pygame.K_p:
                         current_time = time.time()
                         if current_time - last_shoot2 > 0.2:
-                            new_bullet = Bullet(assets["TIRO_P2_E"], p2)  # Cria um novo tiro
+                            new_bullet = Bullet(assets["TIRO_P2_E"], p2)
                             all_sprites.add(new_bullet)
                             all_bullets.add(new_bullet)
                             last_shoot2 = current_time
-
+            
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
                     p1.speedx += 8
                 if event.key == pygame.K_d:
                     p1.speedx -= 8
-
                 if event.key == pygame.K_LEFT:
                     p2.speedx += 8
                 if event.key == pygame.K_RIGHT:
                     p2.speedx -= 8
-        if game_start == True:
-
-            # Detecta colisões entre os tiros e os jogadores
+        
+        if game_start:
             hits1 = pygame.sprite.spritecollide(p2, all_bullets, True)
-            if hits1:
-                if vida2 != 0:
-                    vida2 -= 5
+            if hits1 and vida2 > 0:
+                vida2 -= 5
 
             hits2 = pygame.sprite.spritecollide(p1, all_bullets, True)
-            if hits2:
-                if vida1 != 0:
-                    vida1 -= 5
+            if hits2 and vida1 > 0:
+                vida1 -= 5
 
             all_sprites.update()
-
-            #window.blit(image, (0, 0))
-
             all_sprites.draw(window)
 
-            health_bar(window, 10, 10, vida1, 200, (0, 255, 0))  # Barra de vida do Player 1
-            health_bar(window, 690, 10, vida2, 200, (0, 255, 0))  # Barra de vida do Player 2
-
+            health_bar(window, 10, 10, vida1, 200, (0, 255, 0))
+            health_bar(window, 690, 10, vida2, 200, (0, 255, 0))
             placar = fonte.render(f'{wins1} X {wins2}', True, (255, 255, 255))
-
             window.blit(placar, (WIDTH / 2 - 25, 10))
 
             if vida1 == 0 or vida2 == 0:
@@ -172,47 +150,29 @@ while game != 'encerrar':
                 if vida2 == 0:
                     wins1 += 1
                 
-                pygame.mixer.music.load(assets['FATALITY'])
-                pygame.mixer.music.set_volume(0.8)
-                pygame.mixer.music.play()
+                tocar_musica('FATALITY', 0.8, False)
                 game = False
         
-        pygame.display.update()  # Mostra o novo frame para o jogador
-
-    if game == False:
-        
-        #window.blit(image, (0, 0))
+        pygame.display.update()
+    
+    if not game:
         clock.tick(FPS)
-        # ----- Trata eventos
         all_sprites.empty()
-        if vida1 == 0:
-            image = assets['VITORIA_P2']
-
-        elif vida2 == 0:
-            image = assets['VITORIA_P1']
-
+        image = assets['VITORIA_P2'] if vida1 == 0 else assets['VITORIA_P1']
         window.blit(image, (0, 0))
-
+        
         for event in pygame.event.get():
-        # ----- Verifica consequências
             if event.type == pygame.QUIT:
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    vida1 = 200
-                    vida2 = 200
-                    image = assets['INICIO']
-                    game_start = False
-                    GROUND = 280
-                    p1 = player(assets['P1_D'], 100, GROUND)
-                    p2 = player(assets['P2_E'], 700, GROUND)
-                    all_sprites.add(p1)
-                    all_sprites.add(p2)
-                    pygame.mixer.music.load(assets['SND_INICIO'])
-                    pygame.mixer.music.set_volume(0.4)
-                    pygame.mixer.music.play(loops=-1)
-                    escolheu_mapa = False
-                    game = True
-
-        pygame.display.update() 
-
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                vida1 = vida2 = 200
+                image = assets['INICIO']
+                game_start = escolheu_mapa = False
+                GROUND = 280
+                p1 = player(assets['P1_D'], 100, GROUND)
+                p2 = player(assets['P2_E'], 700, GROUND)
+                all_sprites.add(p1, p2)
+                tocar_musica('SND_INICIO', 0.4, True)
+                game = True
+        
+        pygame.display.update()
